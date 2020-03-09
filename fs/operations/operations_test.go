@@ -354,7 +354,7 @@ func TestRetry(t *testing.T) {
 
 }
 
-func testCheck(t *testing.T, checkFunction func(ctx context.Context, fdst, fsrc fs.Fs, oneway bool) error) {
+func testCheck(t *testing.T, checkFunction func(ctx context.Context, opt *operations.CheckOpt) error) {
 	r := fstest.NewRun(t)
 	defer r.Finalise()
 
@@ -366,7 +366,12 @@ func testCheck(t *testing.T, checkFunction func(ctx context.Context, fdst, fsrc 
 		defer func() {
 			log.SetOutput(os.Stderr)
 		}()
-		err := checkFunction(context.Background(), r.Fremote, r.Flocal, oneway)
+		opt := operations.CheckOpt{
+			Fdst:   r.Fremote,
+			Fsrc:   r.Flocal,
+			OneWay: oneway,
+		}
+		err := checkFunction(context.Background(), &opt)
 		gotErrors := accounting.GlobalStats().GetErrors()
 		gotChecks := accounting.GlobalStats().GetChecks()
 		if wantErrors == 0 && err != nil {
@@ -432,7 +437,12 @@ func TestCheckFsError(t *testing.T) {
 	if err != nil {
 		t.Fatal(err)
 	}
-	err = operations.Check(context.Background(), dstFs, srcFs, false)
+	opt := operations.CheckOpt{
+		Fdst:   dstFs,
+		Fsrc:   srcFs,
+		OneWay: false,
+	}
+	err = operations.Check(context.Background(), &opt)
 	require.Error(t, err)
 }
 
