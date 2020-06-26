@@ -578,6 +578,7 @@ func (f *Fs) dirExists(dir string) (bool, error) {
 		return false, errors.Wrap(err, "dirExists")
 	}
 	info, err := c.sftpClient.Stat(dir)
+	fs.Debugf(nil, "Dir Stat result for %q is %#v, %#v", dir, info, err)
 	f.putSftpConnection(&c, err)
 	if err != nil {
 		if os.IsNotExist(err) {
@@ -1093,6 +1094,7 @@ func (f *Fs) stat(remote string) (info os.FileInfo, err error) {
 	}
 	absPath := path.Join(f.root, remote)
 	info, err = c.sftpClient.Stat(absPath)
+	fs.Debugf(nil, "Stat result for %q is %#v, %#v", absPath, info, err)
 	f.putSftpConnection(&c, err)
 	return info, err
 }
