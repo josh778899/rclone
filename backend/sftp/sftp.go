@@ -572,6 +572,8 @@ func (f *Fs) NewObject(ctx context.Context, remote string) (fs.Object, error) {
 func (f *Fs) dirExists(dir string) (bool, error) {
 	if dir == "" {
 		dir = "."
+	} else {
+		dir = "./" + dir
 	}
 	c, err := f.getSftpConnection()
 	if err != nil {
