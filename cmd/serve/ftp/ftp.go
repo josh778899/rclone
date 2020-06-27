@@ -151,7 +151,7 @@ func newServer(f fs.Fs, opt *Options) (*server, error) {
 		Factory:        s, // implemented by NewDriver method
 		Hostname:       host,
 		Port:           portNum,
-		PublicIp:       opt.PublicIP,
+		PublicIP:       opt.PublicIP,
 		PassivePorts:   opt.PassivePorts,
 		Auth:           s, // implemented by CheckPasswd method
 		Logger:         &Logger{},
