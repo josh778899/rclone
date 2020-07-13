@@ -15,14 +15,16 @@ import (
 	"context"
 	"encoding/json"
 	"fmt"
+	"github.com/glycerine/rbuf"
 	"io"
 	"net/http"
 	"net/url"
 	"strconv"
+	"sync"
+	"time"
 
 	"github.com/rclone/rclone/fs"
 	"github.com/rclone/rclone/fs/fserrors"
-	"github.com/rclone/rclone/lib/readers"
 	"google.golang.org/api/drive/v3"
 	"google.golang.org/api/googleapi"
 )
@@ -126,6 +128,7 @@ func (rx *resumableUpload) makeRequest(ctx context.Context, start int64, body io
 	} else {
 		req.Header.Set("Content-Range", fmt.Sprintf("bytes */%v", totalSize))
 	}
+	fs.Infof(rx.remote, "reqSize: %s", req.Header["Content-Range"])
 	req.Header.Set("Content-Type", rx.MediaType)
 	return req
 }
@@ -164,58 +167,418 @@ func (rx *resumableUpload) transferChunk(ctx context.Context, start int64, chunk
 	return res.StatusCode, nil
 }
 
+// min returns the smallest of x, y
+func min(x, y int64) int64 {
+	if x < y {
+		return x
+	}
+	return y
+}
+
+/*
+type doubleReadSeeker struct {
+	rs1, rs2       io.ReadSeeker
+	rs1len, rs2len int64
+	second         bool
+	pos            int64
+}
+
+func (r *doubleReadSeeker) Seek(offset int64, whence int) (int64, error) {
+	//log.Printf("Seek %d %d", offset, whence)
+	var err error
+	switch whence {
+	case os.SEEK_SET:
+		if offset < r.rs1len {
+			r.second = false
+			r.pos, err = r.rs1.Seek(offset, os.SEEK_SET)
+			r.pos, err = r.rs2.Seek(0, os.SEEK_SET)
+			return r.pos, err
+		} else {
+			r.second = true
+			r.pos, err = r.rs2.Seek(offset-r.rs1len, os.SEEK_SET)
+			r.pos += r.rs1len
+			return r.pos, err
+		}
+	case os.SEEK_END: // negative offset
+		return r.Seek(r.rs1len+r.rs2len+offset-1, os.SEEK_SET)
+	default: // os.SEEK_CUR
+		return r.Seek(r.pos+offset, os.SEEK_SET)
+	}
+}
+
+func (r *doubleReadSeeker) Read(p []byte) (n int, err error) {
+	//log.Printf("Read %d %d", len(p), r.pos)
+	switch {
+	case r.pos >= r.rs1len: // read only from the second reader
+		n, err := r.rs2.Read(p)
+		r.pos += int64(n)
+		//log.Printf("<Read1 %d %d %s", n, r.pos, err)
+		return n, err
+	case r.pos+int64(len(p)) <= r.rs1len: // read only from the first reader
+		n, err := r.rs1.Read(p)
+		r.pos += int64(n)
+		//log.Printf("<Read2 %d %d %s", n, r.pos, err)
+		return n, err
+	default: // read on the border - end of first reader and start of second reader
+		n1, err := r.rs1.Read(p)
+		r.pos += int64(n1)
+		if r.pos != r.rs1len || (err != nil && err != io.EOF) {
+			// Read() might not read all, return
+			// If error (but not EOF), return
+			return n1, err
+		}
+		_, err = r.rs2.Seek(0, os.SEEK_SET)
+		if err != nil {
+			return n1, err
+		}
+		r.second = true
+		n2, err := r.rs2.Read(p[n1:])
+		r.pos += int64(n2)
+		//log.Printf("<Read3 %d %d %s", n, r.pos, err)
+		return n1 + n2, err
+	}
+}
+
+func multiReadSeeker(rs []io.ReadSeeker, leftmost bool) (io.ReadSeeker, int64, error) {
+	if len(rs) == 1 {
+		r := rs[0]
+		l, err := r.Seek(0, os.SEEK_END)
+		if err != nil {
+			return nil, 0, err
+		}
+		if leftmost {
+			_, err = r.Seek(0, os.SEEK_SET)
+		}
+		return r, l, err
+	} else {
+		rs1, l1, err := multiReadSeeker(rs[:len(rs)/2], leftmost)
+		if err != nil {
+			return nil, 0, err
+		}
+		rs2, l2, err := multiReadSeeker(rs[len(rs)/2:], true)
+		if err != nil {
+			return nil, 0, err
+		}
+		return &doubleReadSeeker{rs1, rs2, l1, l2, false, 0}, l1 + l2, nil
+	}
+}
+
+type emptyReadSeeker struct{}
+
+func (r *emptyReadSeeker) Read(p []byte) (n int, err error) {
+	return 0, io.EOF
+}
+
+func (r *emptyReadSeeker) Seek(offset int64, whence int) (int64, error) {
+	return 0, io.EOF
+}
+
+// MultiReadSeeker returns a ReadSeeker that's the logical concatenation of the provided
+// input readseekers. After calling this method the initial position is set to the
+// beginning of the first ReadSeeker. At the end of a ReadSeeker, Read always advances
+// to the beginning of the next ReadSeeker and returns EOF at the end of the last ReadSeeker.
+// Seek can be used over the sum of lengths of all readseekers.
+//
+// When a MultiReadSeeker is used, no Read and Seek operations should be made on
+// its ReadSeeker components and the length of the readseekers should not change.
+// Also, users should make no assumption on the state of individual readseekers
+// while the MultiReadSeeker is used.
+func MultiReadSeeker(start int64, rs ...io.ReadSeeker) io.ReadSeeker {
+	if len(rs) == 0 {
+		return &emptyReadSeeker{}
+	}
+	r, len, err := multiReadSeeker(rs, true)
+	if err != nil {
+		return &emptyReadSeeker{}
+	}
+	if start != 0 {
+		return &doubleReadSeeker{bytes.NewReader(make([]byte, 0)), r, start, len, false, 0}
+	}
+	return r
+}
+*/
+
+type StubReadSeeker struct {
+	f    *rbuf.AtomicFixedSizeRingBuf
+	size int64
+	buf  io.Reader
+}
+
+func (r *StubReadSeeker) Read(p []byte) (n int, err error) {
+	return r.buf.Read(p)
+}
+
+func (r *StubReadSeeker) Seek(offset int64, whence int) (int64, error) {
+	b := r.f.BytesTwo()
+	//r.buf = bytes.NewBuffer(b[0:min(int64(len(b)), r.size)])
+	r.buf = io.LimitReader(io.MultiReader(bytes.NewBuffer(b.First), bytes.NewBuffer(b.Second)), r.size)
+	return 0, nil
+}
+
 // Upload uploads the chunks from the input
 // It retries each chunk using the pacer and --low-level-retries
 func (rx *resumableUpload) Upload(ctx context.Context) (*drive.File, error) {
-	start := int64(0)
 	var StatusCode int
 	var err error
-	buf := make([]byte, int(rx.f.opt.ChunkSize))
-	for finished := false; !finished; {
-		var reqSize int64
-		var chunk io.ReadSeeker
-		if rx.ContentLength >= 0 {
-			// If size known use repeatable reader for smoother bwlimit
-			if start >= rx.ContentLength {
-				break
+	fs.Infof(rx.remote, "ChunkSize: %v", int(rx.f.opt.ChunkSize))
+	buf := rbuf.NewAtomicFixedSizeRingBuf(int(rx.f.opt.ChunkSize))
+	//buf := make([]byte, int(rx.f.opt.ChunkSize))
+	SMALLCHUNK := fs.SizeSuffix(32 * 1024)
+	//SMALLCHUNK := fs.SizeSuffix(4)
+	var finished bool
+	errReaderChan := make(chan error)
+	errChan := make(chan error)
+	//var readerMx sync.Mutex
+	//bufstartpos := SMALLCHUNK * 0
+	//bufendpos := SMALLCHUNK * 0
+	var bufchangeMx sync.Mutex
+	pos := int64(0)
+	fullLen := int64(0)
+	go func() {
+		tempbuf := make([]byte, SMALLCHUNK)
+		for {
+			n, err := rx.Media.Read(tempbuf)
+			wbuf := tempbuf[:n]
+
+			for {
+				bufchangeMx.Lock()
+				wn, err := buf.Write(wbuf)
+				bufchangeMx.Unlock()
+				wbuf = wbuf[wn:]
+				if err == io.EOF {
+					time.Sleep(200 * time.Millisecond)
+				}
+				if len(wbuf) == 0 {
+					break
+				}
 			}
-			reqSize = rx.ContentLength - start
-			if reqSize >= int64(rx.f.opt.ChunkSize) {
-				reqSize = int64(rx.f.opt.ChunkSize)
+
+			pos += int64(n)
+			if err != nil {
+				fullLen = pos
+				finished = true
+				if err == io.EOF {
+					// Send the last chunk with the correct ContentLength
+					// otherwise Google doesn't know we've finished
+					errReaderChan <- nil
+					return
+				} else {
+					errReaderChan <- err
+					return
+				}
 			}
-			chunk = readers.NewRepeatableLimitReaderBuffer(rx.Media, buf, reqSize)
-		} else {
-			// If size unknown read into buffer
-			var n int
-			n, err = readers.ReadFill(rx.Media, buf)
+		}
+	}()
+
+	go func() {
+		//testF, _ := os.Create("test")
+		//defer testF.Close()
+		start := int64(0)
+		overtime := 0
+		for {
+			reqSize := int64(buf.Readable())
+			if reqSize > reqSize-262144 {
+				overtime++
+				if overtime > 4 {
+					bufchangeMx.Lock()
+					newbuf := rbuf.NewAtomicFixedSizeRingBuf(buf.N + 1*1024*1024)
+					ret := func() error {
+						two := buf.BytesTwo()
+						_, err := newbuf.Write(two.First)
+						if err != nil {
+							return err
+						}
+						_, err = newbuf.Write(two.Second)
+						if err != nil {
+							return err
+						}
+						return nil
+					}
+					if ret == nil {
+						buf = newbuf
+						if buf.Readable() != newbuf.Readable() {
+							panic("Unexpected transfer fail ...")
+						}
+					}
+					bufchangeMx.Unlock()
+				}
+			} else {
+				overtime--
+			}
+			if !finished {
+				if reqSize < 262144 { // fuck Google
+					time.Sleep(500 * time.Millisecond)
+					continue
+				} else if reqSize < int64(buf.N)/3 {
+					//nfs.Debugf(rx.remote, "ReqSize too small: %v", reqSize)
+					time.Sleep(500 * time.Millisecond)
+					continue
+				}
+				reqSize -= reqSize % 262144
+			} else {
+				if start+reqSize != fullLen {
+					fs.Errorf(rx.remote, "Error size not match: start + reqSize = %v, fullLen = %v", start+reqSize, fullLen)
+				}
+				rx.ContentLength = fullLen
+			}
+			var chunk io.ReadSeeker
+			chunk = &StubReadSeeker{f: buf, size: reqSize}
+			//chunk.Seek(0, io.SeekStart)
+
+			//n, err := io.Copy(testF, chunk)
+			//fs.Infof(rx.remote, "Test Read: %d %s", n, err)
+
+			//if finished && start + reqSize == fullLen {
+			//	rx.ContentLength = fullLen
+			//}
+			// Transfer the chunk
+			err = rx.f.pacer.Call(func() (bool, error) {
+				StatusCode, err = rx.transferChunk(ctx, start, chunk, reqSize)
+				fs.Infof(rx.remote, "Sending chunk %d length %d, Err: %s", start, reqSize, err)
+				again, err := rx.f.shouldRetry(err)
+				if StatusCode == statusResumeIncomplete || StatusCode == http.StatusCreated || StatusCode == http.StatusOK {
+					again = false
+					err = nil
+				}
+				return again, err
+			})
+			if err != nil {
+				errChan <- err
+				return
+			}
+			start += reqSize
+			buf.Advance(int(reqSize))
+			//fs.Infof(rx.remote, "%v  %v", start, fullLen)
+			if finished && start >= fullLen {
+				errChan <- nil
+				return
+			}
+			time.Sleep(time.Second * 5)
+		}
+	}()
+	/*go func() {
+		time.Sleep(100 * time.Millisecond)
+		for {
+			var n int64
+			var newpos int64
+			readSize := int64(0)
+			log.Printf("buf start: %d end %d", bufstartpos, bufendpos)
+			readerMx.Lock()
+			newpos = min(int64(bufstartpos) + int64(len(buf)) - 1, int64(bufendpos + SMALLCHUNK))
+			if newpos == int64(bufendpos) {
+				time.Sleep(10 * time.Millisecond)
+				readerMx.Unlock()
+				continue
+			}
+			readSize = newpos - int64(bufendpos)
+			s := bufendpos % fs.SizeSuffix(len(buf))
+			e := newpos % int64(len(buf))
+			var bufSlice io.Writer
+			if int64(s) > e {
+				bufSlice = io.MultiWriter(bytes.NewBuffer(buf[s:]), bytes.NewBuffer(buf[0:e]))
+			} else {
+				bufSlice = bytes.NewBuffer(buf[s:e])
+			}
+			readerMx.Unlock()
+
+			n, err = io.CopyN(bufSlice, rx.Media, readSize)
+			//n, err = readers.ReadFill(rx.Media, bufSlice)
+			readerMx.Lock()
+			bufendpos += fs.SizeSuffix(n)
+			readerMx.Unlock()
 			if err == io.EOF {
 				// Send the last chunk with the correct ContentLength
 				// otherwise Google doesn't know we've finished
-				rx.ContentLength = start + int64(n)
+				rx.ContentLength = int64(bufendpos)
 				finished = true
+				return
 			} else if err != nil {
+				errChan <- err
+				return
+			}
+		}
+	}()
+
+	go func() {
+		testF, _ := os.Create("test")
+		defer testF.Close()
+		start := int64(0)
+		for {
+			var reqSize int64
+			var chunk io.ReadSeeker
+			readerMx.Lock()
+			_s := bufstartpos
+			_e := bufendpos
+			_e -= (_e - _s) % 262144 // fuck google...
+			readerMx.Unlock()
+			if _e == _s {
+				chunk = nil
+				reqSize = 0
+				time.Sleep(100 * time.Millisecond)
+				continue
+			}
+			s := _s % fs.SizeSuffix(len(buf))
+			e := _e % fs.SizeSuffix(len(buf))
+			fs.Infof(rx.remote, "Sending buf %d to %d", s, e)
+			if e < s {
+				chunk = MultiReadSeeker(0, bytes.NewReader(buf[s:]), bytes.NewReader(buf[0:e]))
+				reqSize = int64(fs.SizeSuffix(len(buf)) - s + e)
+			} else {
+				chunk = bytes.NewReader(buf[s:e])
+				reqSize = int64(e-s)
+			}
+			//chunk.Seek(0, io.SeekStart)
+			//chunk.Seek(int64(_s), io.SeekStart)
+			//n, err := chunk.Read(make([]byte, 0x1000000))
+			//fs.Infof(rx.remote, "Test Read: %d %s", n, err)
+			if reqSize < 262144 { // fuck Google
+				continue
+			}
+			n, err := io.Copy(testF, chunk)
+			fs.Infof(rx.remote, "Test Read: %d %s", n, err)
+
+			// Transfer the chunk
+			err = rx.f.pacer.Call(func() (bool, error) {
+				fs.Infof(rx.remote, "Sending chunk %d length %d", start, reqSize)
+				StatusCode, err = rx.transferChunk(ctx, start, chunk, reqSize)
+				fs.Infof(rx.remote, "Err: %s", err)
+				again, err := rx.f.shouldRetry(err)
+				if StatusCode == statusResumeIncomplete || StatusCode == http.StatusCreated || StatusCode == http.StatusOK {
+					again = false
+					err = nil
+				}
+				return again, err
+			})
+			if err != nil {
+				errChan <- err
+				return
+			}
+			readerMx.Lock()
+			bufstartpos += fs.SizeSuffix(reqSize)
+			readerMx.Unlock()
+			start += reqSize
+			if finished && start == rx.ContentLength {
+				errChan <- nil
+			}
+		}
+	}()*/
+
+goodexit:
+	for {
+		var errReader error
+		select {
+		case errReader = <-errReaderChan:
+			fs.Infof(rx.remote, "Reader finished with error: %s", errReader)
+		case err := <-errChan:
+			fs.Infof(rx.remote, "Writer finished with error: %s", err)
+			if errReader != nil {
+				return nil, errReader
+			}
+			if err != nil {
 				return nil, err
 			}
-			reqSize = int64(n)
-			chunk = bytes.NewReader(buf[:reqSize])
+			break goodexit
 		}
-
-		// Transfer the chunk
-		err = rx.f.pacer.Call(func() (bool, error) {
-			fs.Debugf(rx.remote, "Sending chunk %d length %d", start, reqSize)
-			StatusCode, err = rx.transferChunk(ctx, start, chunk, reqSize)
-			again, err := rx.f.shouldRetry(err)
-			if StatusCode == statusResumeIncomplete || StatusCode == http.StatusCreated || StatusCode == http.StatusOK {
-				again = false
-				err = nil
-			}
-			return again, err
-		})
-		if err != nil {
-			return nil, err
-		}
-
-		start += reqSize
 	}
 	// Resume or retry uploads that fail due to connection interruptions or
 	// any 5xx errors, including:

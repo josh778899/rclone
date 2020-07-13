@@ -2516,6 +2516,11 @@ func (f *Fs) PublicLink(ctx context.Context, remote string, expire fs.Duration, 
 	err = f.pacer.Call(func() (bool, error) {
 		// TODO: On TeamDrives this might fail if lacking permissions to change ACLs.
 		// Need to either check `canShare` attribute on the object or see if a sufficient permission is already present.
+		list, err := f.svc.Permissions.List(id).
+			Fields("").
+			SupportsAllDrives(true).
+			Do()
+		log.Println(list)
 		_, err = f.svc.Permissions.Create(id, permission).
 			Fields("").
 			SupportsAllDrives(true).

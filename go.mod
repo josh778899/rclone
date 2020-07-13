@@ -17,7 +17,9 @@ require (
 	github.com/coreos/go-semver v0.3.0
 	github.com/djherbis/times v1.2.0
 	github.com/dropbox/dropbox-sdk-go-unofficial v5.6.0+incompatible
+	github.com/glycerine/rbuf v0.0.0-20190314090850-75b78581bebe
 	github.com/google/go-querystring v1.0.0 // indirect
+	github.com/google/gops v0.3.10 // indirect
 	github.com/gopherjs/gopherjs v0.0.0-20190812055157-5d271430af9f // indirect
 	github.com/hanwen/go-fuse/v2 v2.0.3-0.20191108143333-152e6ac32d54
 	github.com/jlaffaye/ftp v0.0.0-20200422224957-b9f3ade29122
@@ -61,7 +63,7 @@ require (
 	golang.org/x/net v0.0.0-20200222125558-5a598a2470a0
 	golang.org/x/oauth2 v0.0.0-20200107190931-bf48bf16ab8d
 	golang.org/x/sync v0.0.0-20190911185100-cd5d95a43a6e
-	golang.org/x/sys v0.0.0-20200323222414-85ca7c5b95cd
+	golang.org/x/sys v0.0.0-20200515095857-1151b9dac4a9
 	golang.org/x/text v0.3.2
 	golang.org/x/time v0.0.0-20191024005414-555d28b269f0
 	google.golang.org/api v0.21.1-0.20200411000818-c8cf5cff125e
