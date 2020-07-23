@@ -48,6 +48,7 @@ require (
 	github.com/sevlyar/go-daemon v0.1.5
 	github.com/sirupsen/logrus v1.4.2
 	github.com/skratchdot/open-golang v0.0.0-20200116055534-eef842397966
+	github.com/smallnest/ringbuffer v0.0.0-20200331140504-3a38e8060b89
 	github.com/smartystreets/assertions v1.0.1 // indirect
 	github.com/smartystreets/goconvey v0.0.0-20190731233626-505e41936337 // indirect
 	github.com/spf13/cobra v1.0.0
@@ -73,3 +74,5 @@ require (
 )
 
 go 1.14
+
+replace github.com/smallnest/ringbuffer => ../../smallnest/ringbuffer

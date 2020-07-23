@@ -350,9 +350,9 @@ func NewFs(name, root string, m configmap.Mapper) (fs.Fs, error) {
 	f.srv.SetErrorHandler(errorHandler)
 
 	if f.quirks.insecure {
-		transport := f.cli.Transport.(*fshttp.Transport).Transport
-		transport.TLSClientConfig.InsecureSkipVerify = true
-		transport.ProxyConnectHeader = http.Header{"User-Agent": {clientConfig.UserAgent}}
+		//transport := f.cli.Transport.(*fshttp.Transport).Transport
+		//transport.TLSClientConfig.InsecureSkipVerify = true
+		//transport.ProxyConnectHeader = http.Header{"User-Agent": {clientConfig.UserAgent}}
 	}
 
 	if err = f.authorize(ctx, false); err != nil {

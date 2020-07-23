@@ -15,8 +15,11 @@ import (
 	"context"
 	"encoding/json"
 	"fmt"
-	"github.com/glycerine/rbuf"
+
+	//"github.com/glycerine/rbuf"
+	"github.com/smallnest/ringbuffer"
 	"io"
+	"log"
 	"net/http"
 	"net/url"
 	"strconv"
@@ -128,7 +131,7 @@ func (rx *resumableUpload) makeRequest(ctx context.Context, start int64, body io
 	} else {
 		req.Header.Set("Content-Range", fmt.Sprintf("bytes */%v", totalSize))
 	}
-	fs.Infof(rx.remote, "reqSize: %s", req.Header["Content-Range"])
+	//fs.Debugf(rx.remote, "reqSize: %s", req.Header["Content-Range"])
 	req.Header.Set("Content-Type", rx.MediaType)
 	return req
 }
@@ -299,7 +302,9 @@ func MultiReadSeeker(start int64, rs ...io.ReadSeeker) io.ReadSeeker {
 */
 
 type StubReadSeeker struct {
-	f    *rbuf.AtomicFixedSizeRingBuf
+	//f *ringbuffer.RingBuffer
+	buf1 []byte
+	buf2 []byte
 	size int64
 	buf  io.Reader
 }
@@ -309,10 +314,33 @@ func (r *StubReadSeeker) Read(p []byte) (n int, err error) {
 }
 
 func (r *StubReadSeeker) Seek(offset int64, whence int) (int64, error) {
-	b := r.f.BytesTwo()
+	//b := r.f.BytesTwo()
 	//r.buf = bytes.NewBuffer(b[0:min(int64(len(b)), r.size)])
-	r.buf = io.LimitReader(io.MultiReader(bytes.NewBuffer(b.First), bytes.NewBuffer(b.Second)), r.size)
+	r.buf = io.LimitReader(io.MultiReader(bytes.NewBuffer(r.buf1), bytes.NewBuffer(r.buf2)), r.size)
 	return 0, nil
+}
+
+func NewStubReadSeeker(buf *ringbuffer.RingBuffer, size int64) *StubReadSeeker {
+	two := buf.BytesTwo()
+	return &StubReadSeeker{buf1: two.First, buf2: two.Second, size: size}
+}
+
+var openFileMap sync.Map
+
+func init() {
+	go func() {
+		for {
+			fl := map[string]int{}
+			openFileMap.Range(func(k interface{}, v interface{}) bool {
+				fl[k.(string)] = v.(int)
+				return true
+			})
+			if len(fl) > 0 {
+				log.Printf("Opened files: %s", fl)
+			}
+			time.Sleep(time.Second * 25)
+		}
+	}()
 }
 
 // Upload uploads the chunks from the input
@@ -320,17 +348,20 @@ func (r *StubReadSeeker) Seek(offset int64, whence int) (int64, error) {
 func (rx *resumableUpload) Upload(ctx context.Context) (*drive.File, error) {
 	var StatusCode int
 	var err error
+
 	fs.Infof(rx.remote, "ChunkSize: %v", int(rx.f.opt.ChunkSize))
-	buf := rbuf.NewAtomicFixedSizeRingBuf(int(rx.f.opt.ChunkSize))
-	//buf := make([]byte, int(rx.f.opt.ChunkSize))
+	//buf := rbuf.NewAtomicFixedSizeRingBuf(int(rx.f.opt.ChunkSize))
+	INITBUFSIZE := 6 * 1024 * 1024
 	SMALLCHUNK := fs.SizeSuffix(32 * 1024)
-	//SMALLCHUNK := fs.SizeSuffix(4)
+	MAXBUFSIZE := int(rx.f.opt.ChunkSize)
+	key := rx.remote + "_" + strconv.Itoa(int(time.Now().Unix()))
+	buf := ringbuffer.New(INITBUFSIZE)
+	openFileMap.Store(key, INITBUFSIZE)
+	//buf := make([]byte, int(rx.f.opt.ChunkSize))
 	var finished bool
 	errReaderChan := make(chan error)
 	errChan := make(chan error)
 	//var readerMx sync.Mutex
-	//bufstartpos := SMALLCHUNK * 0
-	//bufendpos := SMALLCHUNK * 0
 	var bufchangeMx sync.Mutex
 	pos := int64(0)
 	fullLen := int64(0)
@@ -346,7 +377,7 @@ func (rx *resumableUpload) Upload(ctx context.Context) (*drive.File, error) {
 				bufchangeMx.Unlock()
 				wbuf = wbuf[wn:]
 				if err == io.EOF {
-					time.Sleep(200 * time.Millisecond)
+					time.Sleep(500 * time.Millisecond)
 				}
 				if len(wbuf) == 0 {
 					break
@@ -375,42 +406,56 @@ func (rx *resumableUpload) Upload(ctx context.Context) (*drive.File, error) {
 		//defer testF.Close()
 		start := int64(0)
 		overtime := 0
+		ticker := time.NewTicker(3 * time.Second)
+		defer ticker.Stop()
 		for {
 			reqSize := int64(buf.Readable())
-			if reqSize > reqSize-262144 {
+			if int(reqSize) > buf.Capacity()-262144 {
 				overtime++
-				if overtime > 4 {
+				if overtime > 2 {
 					bufchangeMx.Lock()
-					newbuf := rbuf.NewAtomicFixedSizeRingBuf(buf.N + 1*1024*1024)
-					ret := func() error {
-						two := buf.BytesTwo()
-						_, err := newbuf.Write(two.First)
-						if err != nil {
-							return err
-						}
-						_, err = newbuf.Write(two.Second)
-						if err != nil {
-							return err
-						}
-						return nil
+					newsize := buf.Capacity() + 2*1024*1024
+					if newsize > MAXBUFSIZE {
+						newsize = MAXBUFSIZE
 					}
-					if ret == nil {
-						buf = newbuf
-						if buf.Readable() != newbuf.Readable() {
-							panic("Unexpected transfer fail ...")
+					if newsize != buf.Capacity() && newsize <= MAXBUFSIZE {
+						fs.Logf(rx.remote, "ChunkSize increase to %d", newsize)
+						newbuf := ringbuffer.New(newsize)
+						//newbuf := rbuf.NewAtomicFixedSizeRingBuf(buf.N + 1 * 1024 * 1024)
+						ret := func() error {
+							two := buf.BytesTwo()
+							_, err := newbuf.Write(two.First)
+							if err != nil {
+								return err
+							}
+							_, err = newbuf.Write(two.Second)
+							if err != nil {
+								return err
+							}
+							return nil
+						}()
+						if ret == nil {
+							buf = newbuf
+							openFileMap.Store(key, newsize)
+							if buf.Readable() != newbuf.Readable() {
+								panic("Unexpected transfer fail ...")
+							}
 						}
 					}
+					overtime = 0
 					bufchangeMx.Unlock()
 				}
 			} else {
-				overtime--
+				if overtime >= -5 {
+					overtime--
+				}
 			}
 			if !finished {
 				if reqSize < 262144 { // fuck Google
 					time.Sleep(500 * time.Millisecond)
 					continue
-				} else if reqSize < int64(buf.N)/3 {
-					//nfs.Debugf(rx.remote, "ReqSize too small: %v", reqSize)
+				} else if reqSize < 1024*1024 /*int64(buf.Capacity()) / 3*/ {
+					//fs.Debugf(rx.remote, "ReqSize too small: %v", reqSize)
 					time.Sleep(500 * time.Millisecond)
 					continue
 				}
@@ -422,7 +467,8 @@ func (rx *resumableUpload) Upload(ctx context.Context) (*drive.File, error) {
 				rx.ContentLength = fullLen
 			}
 			var chunk io.ReadSeeker
-			chunk = &StubReadSeeker{f: buf, size: reqSize}
+			//chunk = &StubReadSeeker{f:buf, size: reqSize}
+			chunk = NewStubReadSeeker(buf, reqSize)
 			//chunk.Seek(0, io.SeekStart)
 
 			//n, err := io.Copy(testF, chunk)
@@ -433,8 +479,12 @@ func (rx *resumableUpload) Upload(ctx context.Context) (*drive.File, error) {
 			//}
 			// Transfer the chunk
 			err = rx.f.pacer.Call(func() (bool, error) {
+				s := time.Now()
 				StatusCode, err = rx.transferChunk(ctx, start, chunk, reqSize)
-				fs.Infof(rx.remote, "Sending chunk %d length %d, Err: %s", start, reqSize, err)
+				diffT := time.Now().Sub(s)
+				if diffT > 1000*time.Millisecond {
+					fs.Infof(rx.remote, "Sent chunk %d length %d, Code: %d, Err: %s, Time %s", start, reqSize, StatusCode, err, diffT)
+				}
 				again, err := rx.f.shouldRetry(err)
 				if StatusCode == statusResumeIncomplete || StatusCode == http.StatusCreated || StatusCode == http.StatusOK {
 					again = false
@@ -453,7 +503,8 @@ func (rx *resumableUpload) Upload(ctx context.Context) (*drive.File, error) {
 				errChan <- nil
 				return
 			}
-			time.Sleep(time.Second * 5)
+			//time.Sleep(time.Second * 3)
+			<-ticker.C
 		}
 	}()
 	/*go func() {
@@ -580,6 +631,7 @@ goodexit:
 			break goodexit
 		}
 	}
+	openFileMap.Delete(key)
 	// Resume or retry uploads that fail due to connection interruptions or
 	// any 5xx errors, including:
 	//

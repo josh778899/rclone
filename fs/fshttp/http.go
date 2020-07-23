@@ -114,7 +114,10 @@ func ResetTransport() {
 func NewTransportCustom(ci *fs.ConfigInfo, customize func(*http.Transport)) http.RoundTripper {
 	// Start with a sensible set of defaults then override.
 	// This also means we get new stuff when it gets added to go
-	t := new(http.Transport)
+	//t := new(http.Transport)
+	//t := http.DefaultTransport
+	var t *http.Transport
+	t = http.DefaultTransport.(*http.Transport)
 	structs.SetDefaults(t, http.DefaultTransport.(*http.Transport))
 	t.Proxy = http.ProxyFromEnvironment
 	t.MaxIdleConnsPerHost = 2 * (ci.Checkers + ci.Transfers + 1)
@@ -200,7 +203,8 @@ func NewClient(ci *fs.ConfigInfo) *http.Client {
 // * Sets the User Agent
 // * Does logging
 type Transport struct {
-	*http.Transport
+	//*http.Transport
+	Transport     http.RoundTripper
 	dump          fs.DumpFlags
 	filterRequest func(req *http.Request)
 	userAgent     string
@@ -209,7 +213,7 @@ type Transport struct {
 
 // newTransport wraps the http.Transport passed in and logs all
 // roundtrips including the body if logBody is set.
-func newTransport(ci *fs.ConfigInfo, transport *http.Transport) *Transport {
+func newTransport(ci *fs.ConfigInfo, transport http.RoundTripper) *Transport {
 	return &Transport{
 		Transport: transport,
 		dump:      ci.Dump,

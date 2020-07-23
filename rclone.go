@@ -45,15 +45,19 @@ func printMem() {
 	}()
 	ticker := time.NewTicker(time.Second * 5)
 	for {
-		start := time.Now()
+		//start := time.Now()
 		runtime.GC()
 		debug.FreeOSMemory()
-		log.Printf("GC & scvg use %s", time.Now().Sub(start))
+		//log.Printf("GC & scvg use %s", time.Now().Sub(start))
 		<-ticker.C
 	}
 }
 
 func main() {
+	http.DefaultClient.Transport = &http.Transport{
+		DisableKeepAlives:  false,
+		DisableCompression: true,
+	}
 	go printMem()
 	cmd.Main()
 }
