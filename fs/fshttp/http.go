@@ -116,8 +116,8 @@ func NewTransportCustom(ci *fs.ConfigInfo, customize func(*http.Transport)) http
 	// This also means we get new stuff when it gets added to go
 	//t := new(http.Transport)
 	//t := http.DefaultTransport
-	var t *http.Transport
-	t = http.DefaultTransport.(*http.Transport)
+	//var t *http.Transport
+	t := http.DefaultTransport.(*http.Transport)
 	structs.SetDefaults(t, http.DefaultTransport.(*http.Transport))
 	t.Proxy = http.ProxyFromEnvironment
 	t.MaxIdleConnsPerHost = 2 * (ci.Checkers + ci.Transfers + 1)
@@ -158,9 +158,9 @@ func NewTransportCustom(ci *fs.ConfigInfo, customize func(*http.Transport)) http
 	}
 
 	t.DisableCompression = ci.NoGzip
-	t.DialContext = func(ctx context.Context, network, addr string) (net.Conn, error) {
+	/*t.DialContext = func(ctx context.Context, network, addr string) (net.Conn, error) {
 		return dialContextTimeout(ctx, network, addr, ci)
-	}
+	}*/
 	t.IdleConnTimeout = 60 * time.Second
 	t.ExpectContinueTimeout = ci.ExpectContinueTimeout
 

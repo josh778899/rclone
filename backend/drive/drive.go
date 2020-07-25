@@ -637,12 +637,24 @@ func (f *Fs) shouldRetry(err error) (bool, error) {
 		return false, nil
 	}
 	if fserrors.ShouldRetry(err) {
+		if f.opt.ServiceAccountFilePath != "" {
+			f.waitChangeSvc.Lock()
+			f.changeSvc()
+			f.waitChangeSvc.Unlock()
+			return true, err
+		}
 		return true, err
 	}
 	switch gerr := err.(type) {
 	case *googleapi.Error:
 		if gerr.Code >= 500 && gerr.Code < 600 {
 			// All 5xx errors should be retried
+			if f.opt.ServiceAccountFilePath != "" {
+				f.waitChangeSvc.Lock()
+				f.changeSvc()
+				f.waitChangeSvc.Unlock()
+				return true, err
+			}
 			return true, err
 		}
 		if len(gerr.Errors) > 0 {
@@ -1050,7 +1062,7 @@ var driveClient *http.Client
 
 // getClient makes an http client according to the options
 func getClient(opt *Options) *http.Client {
-	if driveClient == nil {
+	if true { //driveClient == nil {
 		t := fshttp.NewTransportCustom(fs.Config, func(t *http.Transport) {
 			if opt.DisableHTTP2 {
 				t.TLSNextProto = map[string]func(string, *tls.Conn) http.RoundTripper{}
@@ -1059,6 +1071,7 @@ func getClient(opt *Options) *http.Client {
 		driveClient = &http.Client{
 			Transport: t,
 		}
+		return driveClient
 	}
 	return driveClient
 }
@@ -1276,6 +1289,7 @@ func NewFs(name, path string, m configmap.Mapper) (fs.Fs, error) {
 		f.root = tempF.root
 		return f, fs.ErrorIsFile
 	}
+	f.changeSvc()
 	// fmt.Printf("Root id %s", f.dirCache.RootID())
 	return f, nil
 }

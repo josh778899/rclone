@@ -57,15 +57,18 @@ type resumableUpload struct {
 // Upload the io.Reader in of size bytes with contentType and info
 func (f *Fs) Upload(ctx context.Context, in io.Reader, size int64, contentType, fileID, remote string, info *drive.File) (*drive.File, error) {
 	params := url.Values{
-		"alt":        {"json"},
-		"uploadType": {"resumable"},
-		"fields":     {partialFields},
+		"alt":         {"json"},
+		"prettyPrint": {"false"},
+		"uploadType":  {"resumable"},
+		//"fields":     {partialFields},
 	}
 	params.Set("supportsAllDrives", "true")
 	if f.opt.KeepRevisionForever {
 		params.Set("keepRevisionForever", "true")
 	}
-	urls := "https://www.googleapis.com/upload/drive/v3/files"
+	//urls := "https://www.googleapis.com/upload/drive/v3/files"
+	urls := "https://www.googleapis.com/upload/drive/v2/files"
+	//urls := "https://private.googleapis.com/upload/drive/v3/files"
 	method := "POST"
 	if fileID != "" {
 		params.Set("setModifiedDate", "true")
@@ -95,6 +98,7 @@ func (f *Fs) Upload(ctx context.Context, in io.Reader, size int64, contentType, 
 		if size >= 0 {
 			req.Header.Set("X-Upload-Content-Length", fmt.Sprintf("%v", size))
 		}
+		req.Header.Set("x-goog-api-client", "gl-go/1.13.8 gdcl/20200721")
 		res, err = f.client.Do(req)
 		if err == nil {
 			defer googleapi.CloseBody(res)
@@ -119,8 +123,14 @@ func (f *Fs) Upload(ctx context.Context, in io.Reader, size int64, contentType, 
 
 // Make an http.Request for the range passed in
 func (rx *resumableUpload) makeRequest(ctx context.Context, start int64, body io.ReadSeeker, reqSize int64) *http.Request {
+	return rx._makeRequest("POST", ctx, start, body, reqSize)
+}
+
+// Make an http.Request for the range passed in
+func (rx *resumableUpload) _makeRequest(meth string, ctx context.Context, start int64, body io.ReadSeeker, reqSize int64) *http.Request {
 	req, _ := http.NewRequest("POST", rx.URI, body)
 	req = req.WithContext(ctx) // go1.13 can use NewRequestWithContext
+	req.Header.Set("User-Agent", "google-api-go-client/0.5")
 	req.ContentLength = reqSize
 	totalSize := "*"
 	if rx.ContentLength >= 0 {
@@ -139,7 +149,7 @@ func (rx *resumableUpload) makeRequest(ctx context.Context, start int64, body io
 // Transfer a chunk - caller must call googleapi.CloseBody(res) if err == nil || res != nil
 func (rx *resumableUpload) transferChunk(ctx context.Context, start int64, chunk io.ReadSeeker, chunkSize int64) (int, error) {
 	_, _ = chunk.Seek(0, io.SeekStart)
-	req := rx.makeRequest(ctx, start, chunk, chunkSize)
+	req := rx._makeRequest("POST", ctx, start, chunk, chunkSize)
 	res, err := rx.f.client.Do(req)
 	if err != nil {
 		return 599, err
@@ -351,7 +361,7 @@ func (rx *resumableUpload) Upload(ctx context.Context) (*drive.File, error) {
 
 	fs.Infof(rx.remote, "ChunkSize: %v", int(rx.f.opt.ChunkSize))
 	//buf := rbuf.NewAtomicFixedSizeRingBuf(int(rx.f.opt.ChunkSize))
-	INITBUFSIZE := 6 * 1024 * 1024
+	INITBUFSIZE := 8 * 1024 * 1024
 	SMALLCHUNK := fs.SizeSuffix(32 * 1024)
 	MAXBUFSIZE := int(rx.f.opt.ChunkSize)
 	key := rx.remote + "_" + strconv.Itoa(int(time.Now().Unix()))
@@ -406,7 +416,7 @@ func (rx *resumableUpload) Upload(ctx context.Context) (*drive.File, error) {
 		//defer testF.Close()
 		start := int64(0)
 		overtime := 0
-		ticker := time.NewTicker(3 * time.Second)
+		ticker := time.NewTicker(8 * time.Second)
 		defer ticker.Stop()
 		for {
 			reqSize := int64(buf.Readable())
@@ -454,7 +464,7 @@ func (rx *resumableUpload) Upload(ctx context.Context) (*drive.File, error) {
 				if reqSize < 262144 { // fuck Google
 					time.Sleep(500 * time.Millisecond)
 					continue
-				} else if reqSize < 1024*1024 /*int64(buf.Capacity()) / 3*/ {
+				} else if reqSize < 1024*1024 { // int64(buf.Capacity()) / 3 * 2 {
 					//fs.Debugf(rx.remote, "ReqSize too small: %v", reqSize)
 					time.Sleep(500 * time.Millisecond)
 					continue
@@ -484,6 +494,8 @@ func (rx *resumableUpload) Upload(ctx context.Context) (*drive.File, error) {
 				diffT := time.Now().Sub(s)
 				if diffT > 1000*time.Millisecond {
 					fs.Infof(rx.remote, "Sent chunk %d length %d, Code: %d, Err: %s, Time %s", start, reqSize, StatusCode, err, diffT)
+				} else {
+					fs.Debugf(rx.remote, "Sent chunk %d length %d, Code: %d, Err: %s, Time %s", start, reqSize, StatusCode, err, diffT)
 				}
 				again, err := rx.f.shouldRetry(err)
 				if StatusCode == statusResumeIncomplete || StatusCode == http.StatusCreated || StatusCode == http.StatusOK {
