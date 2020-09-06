@@ -1361,12 +1361,18 @@ func Cat(ctx context.Context, f fs.Fs, w io.Writer, offset, count int64) error {
 	})
 }
 
+var RcatFiles sync.Map
+
 // Rcat reads data from the Reader until EOF and uploads it to a file on remote
 func Rcat(ctx context.Context, fdst fs.Fs, dstFileName string, in io.ReadCloser, modTime time.Time) (dst fs.Object, err error) {
 	tr := accounting.Stats(ctx).NewTransferRemoteSize(dstFileName, -1)
 	defer func() {
 		tr.Done(err)
 	}()
+
+	RcatFiles.Store(dstFileName, in)
+	defer RcatFiles.Delete(dstFileName)
+
 	in = tr.Account(in).WithBuffer()
 
 	readCounter := readers.NewCountingReader(in)

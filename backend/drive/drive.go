@@ -466,7 +466,7 @@ See: https://github.com/rclone/rclone/issues/3631
 			Advanced: true,
 		}, {
 			Name:    "stop_on_upload_limit",
-			Default: true,
+			Default: false,
 			Help: `Make upload limit errors be fatal
 
 At the time of writing it is only possible to upload 750GB of data to
@@ -637,24 +637,12 @@ func (f *Fs) shouldRetry(err error) (bool, error) {
 		return false, nil
 	}
 	if fserrors.ShouldRetry(err) {
-		if f.opt.ServiceAccountFilePath != "" {
-			f.waitChangeSvc.Lock()
-			f.changeSvc()
-			f.waitChangeSvc.Unlock()
-			return true, err
-		}
 		return true, err
 	}
 	switch gerr := err.(type) {
 	case *googleapi.Error:
 		if gerr.Code >= 500 && gerr.Code < 600 {
 			// All 5xx errors should be retried
-			if f.opt.ServiceAccountFilePath != "" {
-				f.waitChangeSvc.Lock()
-				f.changeSvc()
-				f.waitChangeSvc.Unlock()
-				return true, err
-			}
 			return true, err
 		}
 		if len(gerr.Errors) > 0 {
@@ -662,9 +650,7 @@ func (f *Fs) shouldRetry(err error) (bool, error) {
 			if reason == "rateLimitExceeded" || reason == "userRateLimitExceeded" {
 				// 如果存在 ServiceAccountFilePath,调用 changeSvc, 重试
 				if f.opt.ServiceAccountFilePath != "" {
-					f.waitChangeSvc.Lock()
 					f.changeSvc()
-					f.waitChangeSvc.Unlock()
 					return true, err
 				}
 				if f.opt.StopOnUploadLimit && gerr.Errors[0].Message == "User rate limit exceeded." {
@@ -683,6 +669,8 @@ func (f *Fs) shouldRetry(err error) (bool, error) {
 
 // 替换 f.svc 函数
 func (f *Fs) changeSvc() {
+	f.waitChangeSvc.Lock()
+	defer f.waitChangeSvc.Unlock()
 	opt := &f.opt
 	/**
 	 *  获取sa文件列表
@@ -1071,7 +1059,6 @@ func getClient(opt *Options) *http.Client {
 		driveClient = &http.Client{
 			Transport: t,
 		}
-		return driveClient
 	}
 	return driveClient
 }
@@ -1117,7 +1104,7 @@ func createOAuthClient(opt *Options, name string, m configmap.Mapper) (*http.Cli
 }
 
 func checkUploadChunkSize(cs fs.SizeSuffix) error {
-	if !isPowerOfTwo(int64(cs)) {
+	if false && !isPowerOfTwo(int64(cs)) {
 		return errors.Errorf("%v isn't a power of two", cs)
 	}
 	if cs < minChunkSize {
@@ -2151,6 +2138,9 @@ func (f *Fs) PutStream(ctx context.Context, in io.Reader, src fs.ObjectInfo, opt
 // This will create a duplicate if we upload a new file without
 // checking to see if there is one already - use Put() for that.
 func (f *Fs) PutUnchecked(ctx context.Context, in io.Reader, src fs.ObjectInfo, options ...fs.OpenOption) (fs.Object, error) {
+	// every time create a object, renew a service account
+	f.changeSvc()
+
 	remote := src.Remote()
 	size := src.Size()
 	modTime := src.ModTime(ctx)

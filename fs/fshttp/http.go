@@ -114,10 +114,10 @@ func ResetTransport() {
 func NewTransportCustom(ci *fs.ConfigInfo, customize func(*http.Transport)) http.RoundTripper {
 	// Start with a sensible set of defaults then override.
 	// This also means we get new stuff when it gets added to go
-	//t := new(http.Transport)
+	t := new(http.Transport)
 	//t := http.DefaultTransport
 	//var t *http.Transport
-	t := http.DefaultTransport.(*http.Transport)
+	//t := http.DefaultTransport.(*http.Transport)
 	structs.SetDefaults(t, http.DefaultTransport.(*http.Transport))
 	t.Proxy = http.ProxyFromEnvironment
 	t.MaxIdleConnsPerHost = 2 * (ci.Checkers + ci.Transfers + 1)

@@ -17,9 +17,7 @@ require (
 	github.com/coreos/go-semver v0.3.0
 	github.com/djherbis/times v1.2.0
 	github.com/dropbox/dropbox-sdk-go-unofficial v5.6.0+incompatible
-	github.com/glycerine/rbuf v0.0.0-20190314090850-75b78581bebe
 	github.com/google/go-querystring v1.0.0 // indirect
-	github.com/google/gops v0.3.10 // indirect
 	github.com/gopherjs/gopherjs v0.0.0-20190812055157-5d271430af9f // indirect
 	github.com/hanwen/go-fuse/v2 v2.0.3-0.20191108143333-152e6ac32d54
 	github.com/jlaffaye/ftp v0.0.0-20200422224957-b9f3ade29122
@@ -48,13 +46,13 @@ require (
 	github.com/sevlyar/go-daemon v0.1.5
 	github.com/sirupsen/logrus v1.4.2
 	github.com/skratchdot/open-golang v0.0.0-20200116055534-eef842397966
-	github.com/smallnest/ringbuffer v0.0.0-20200331140504-3a38e8060b89
 	github.com/smartystreets/assertions v1.0.1 // indirect
 	github.com/smartystreets/goconvey v0.0.0-20190731233626-505e41936337 // indirect
 	github.com/spf13/cobra v1.0.0
 	github.com/spf13/pflag v1.0.5
 	github.com/stretchr/testify v1.5.1
 	github.com/t3rm1n4l/go-mega v0.0.0-20200117211730-79a813bb328d
+	github.com/valyala/bytebufferpool v1.0.0
 	github.com/xanzy/ssh-agent v0.2.1
 	github.com/youmark/pkcs8 v0.0.0-20191102193632-94c173a94d60
 	github.com/yunify/qingstor-sdk-go/v3 v3.2.0
