@@ -103,7 +103,7 @@ func init() {
 			}
 
 			ctx := context.TODO()
-			err := oauthutil.Config("onedrive", name, m, oauthConfig, nil)
+			err = oauthutil.Config("onedrive", name, m, oauthConfig, nil)
 			if err != nil {
 				log.Fatalf("Failed to configure token: %v", err)
 				return
