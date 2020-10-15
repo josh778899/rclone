@@ -7,9 +7,9 @@ import (
 	"os"
 	"testing"
 
-	"github.com/rclone/rclone/fs"
-	"github.com/rclone/rclone/fs/config/obscure"
-	"github.com/rclone/rclone/fs/rc"
+	"github.com/clive2000/rclone/fs"
+	"github.com/clive2000/rclone/fs/config/obscure"
+	"github.com/clive2000/rclone/fs/rc"
 	"github.com/stretchr/testify/assert"
 	"github.com/stretchr/testify/require"
 )

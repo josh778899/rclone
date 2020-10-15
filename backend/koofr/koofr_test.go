@@ -3,7 +3,7 @@ package koofr_test
 import (
 	"testing"
 
-	"github.com/rclone/rclone/fstest/fstests"
+	"github.com/clive2000/rclone/fstest/fstests"
 )
 
 // TestIntegration runs integration tests against the remote

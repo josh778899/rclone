@@ -15,9 +15,9 @@ import (
 	"unicode/utf8"
 
 	"github.com/pkg/errors"
-	"github.com/rclone/rclone/backend/crypt/pkcs7"
-	"github.com/rclone/rclone/fs"
-	"github.com/rclone/rclone/fs/accounting"
+	"github.com/clive2000/rclone/backend/crypt/pkcs7"
+	"github.com/clive2000/rclone/fs"
+	"github.com/clive2000/rclone/fs/accounting"
 	"github.com/rfjakob/eme"
 	"golang.org/x/crypto/nacl/secretbox"
 	"golang.org/x/crypto/scrypt"

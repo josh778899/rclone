@@ -9,11 +9,11 @@ import (
 	"sync/atomic"
 
 	"github.com/pkg/errors"
-	"github.com/rclone/rclone/fs"
-	"github.com/rclone/rclone/fs/accounting"
-	"github.com/rclone/rclone/fs/hash"
-	"github.com/rclone/rclone/fs/march"
-	"github.com/rclone/rclone/lib/readers"
+	"github.com/clive2000/rclone/fs"
+	"github.com/clive2000/rclone/fs/accounting"
+	"github.com/clive2000/rclone/fs/hash"
+	"github.com/clive2000/rclone/fs/march"
+	"github.com/clive2000/rclone/lib/readers"
 )
 
 // checkFn is the type of the checking function used in CheckFn()

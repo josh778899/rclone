@@ -21,8 +21,8 @@ import (
 	"strings"
 	"time"
 
-	_ "github.com/rclone/rclone/backend/all" // import all fs
-	"github.com/rclone/rclone/lib/pacer"
+	_ "github.com/clive2000/rclone/backend/all" // import all fs
+	"github.com/clive2000/rclone/lib/pacer"
 )
 
 var (

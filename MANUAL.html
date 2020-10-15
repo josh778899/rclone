@@ -126,7 +126,7 @@
 <p>Links</p>
 <ul>
 <li><a href="https://rclone.org/">Home page</a></li>
-<li><a href="https://github.com/rclone/rclone">GitHub project page for source and bug tracker</a></li>
+<li><a href="https://github.com/clive2000/rclone">GitHub project page for source and bug tracker</a></li>
 <li><a href="https://forum.rclone.org">Rclone Forum</a></li>
 <li><a href="https://rclone.org/downloads/">Downloads</a></li>
 </ul>
@@ -232,15 +232,15 @@ ls ~/data/mount
 kill %1</code></pre>
 <h2 id="install-from-source">Install from source</h2>
 <p>Make sure you have at least <a href="https://golang.org/">Go</a> 1.11 installed. <a href="https://golang.org/dl/">Download go</a> if necessary. The latest release is recommended. Then</p>
-<pre><code>git clone https://github.com/rclone/rclone.git
+<pre><code>git clone https://github.com/clive2000/rclone.git
 cd rclone
 go build
 ./rclone version</code></pre>
 <p>This will leave you a checked out version of rclone you can modify and send pull requests with. If you use <code>make</code> instead of <code>go build</code> then the rclone build will have the correct version information in it.</p>
 <p>You can also build the latest stable rclone with:</p>
-<pre><code>go get github.com/rclone/rclone</code></pre>
+<pre><code>go get github.com/clive2000/rclone</code></pre>
 <p>or the latest version (equivalent to the beta) with</p>
-<pre><code>go get github.com/rclone/rclone@master</code></pre>
+<pre><code>go get github.com/clive2000/rclone@master</code></pre>
 <p>These will build the binary in <code>$(go env GOPATH)/bin</code> (<code>~/go/bin/rclone</code> by default) after downloading the source to the go module cache. Note - do <strong>not</strong> use the <code>-u</code> flag here. This causes go to try to update the depencencies that rclone uses and sometimes these don't work with the current version of rclone.</p>
 <h2 id="installation-with-ansible">Installation with Ansible</h2>
 <p>This can be done with <a href="https://github.com/stefangweichinger/ansible-rclone">Stefan Weichinger's ansible role</a>.</p>
@@ -1439,7 +1439,7 @@ umount /path/to/local/mount</code></pre>
 <h2 id="attribute-caching">Attribute caching</h2>
 <p>You can use the flag --attr-timeout to set the time the kernel caches the attributes (size, modification time etc) for directory entries.</p>
 <p>The default is "1s" which caches files just long enough to avoid too many callbacks to rclone from the kernel.</p>
-<p>In theory 0s should be the correct value for filesystems which can change outside the control of the kernel. However this causes quite a few problems such as <a href="https://github.com/rclone/rclone/issues/2157">rclone using too much memory</a>, <a href="https://forum.rclone.org/t/rclone-1-39-vs-1-40-mount-issue/5112">rclone not serving files to samba</a> and <a href="https://github.com/rclone/rclone/issues/2095#issuecomment-371141147">excessive time listing directories</a>.</p>
+<p>In theory 0s should be the correct value for filesystems which can change outside the control of the kernel. However this causes quite a few problems such as <a href="https://github.com/clive2000/rclone/issues/2157">rclone using too much memory</a>, <a href="https://forum.rclone.org/t/rclone-1-39-vs-1-40-mount-issue/5112">rclone not serving files to samba</a> and <a href="https://github.com/clive2000/rclone/issues/2095#issuecomment-371141147">excessive time listing directories</a>.</p>
 <p>The kernel can cache the info about a file for the time given by "--attr-timeout". You may see corruption if the remote file changes length during this window. It will show up as either a truncated file or a file with garbage on the end. With "--attr-timeout 1s" this is very unlikely but not impossible. The higher you set "--attr-timeout" the more likely it is. The default setting of "1s" is the lowest setting which mitigates the problems above.</p>
 <p>If you set it higher ('10s' or '1m' say) then the kernel will call back to rclone less often making it more efficient, however there is more chance of the corruption issue above.</p>
 <p>If files don't change on the remote outside of the control of rclone then there is no chance of corruption.</p>
@@ -1989,7 +1989,7 @@ ffmpeg - | rclone rcat remote:path/to/file</code></pre>
 <h2 id="auth-proxy">Auth Proxy</h2>
 <p>If you supply the parameter <code>--auth-proxy /path/to/program</code> then rclone will use that program to generate backends on the fly which then are used to authenticate incoming requests. This uses a simple JSON based protocl with input on STDIN and output on STDOUT.</p>
 <p><strong>PLEASE NOTE:</strong> <code>--auth-proxy</code> and <code>--authorized-keys</code> cannot be used together, if <code>--auth-proxy</code> is set the authorized keys option will be ignored.</p>
-<p>There is an example program <a href="https://github.com/rclone/rclone/blob/master/test_proxy.py">bin/test_proxy.py</a> in the rclone source code.</p>
+<p>There is an example program <a href="https://github.com/clive2000/rclone/blob/master/test_proxy.py">bin/test_proxy.py</a> in the rclone source code.</p>
 <p>The program's job is to take a <code>user</code> and <code>pass</code> on the input and turn those into the config for a backend on STDOUT in JSON format. This config will have any default parameters for the backend added, but it won't use configuration from environment variables or command line options - it is the job of the proxy program to make a complete config.</p>
 <p>This config generated must have this extra parameter - <code>_root</code> - root to use for the backend</p>
 <p>And it may have this parameter - <code>_obscure</code> - comma separated strings for parameters to obscure</p>
@@ -2555,7 +2555,7 @@ htpasswd -B htpasswd anotherUser</code></pre>
 <h2 id="auth-proxy-1">Auth Proxy</h2>
 <p>If you supply the parameter <code>--auth-proxy /path/to/program</code> then rclone will use that program to generate backends on the fly which then are used to authenticate incoming requests. This uses a simple JSON based protocl with input on STDIN and output on STDOUT.</p>
 <p><strong>PLEASE NOTE:</strong> <code>--auth-proxy</code> and <code>--authorized-keys</code> cannot be used together, if <code>--auth-proxy</code> is set the authorized keys option will be ignored.</p>
-<p>There is an example program <a href="https://github.com/rclone/rclone/blob/master/test_proxy.py">bin/test_proxy.py</a> in the rclone source code.</p>
+<p>There is an example program <a href="https://github.com/clive2000/rclone/blob/master/test_proxy.py">bin/test_proxy.py</a> in the rclone source code.</p>
 <p>The program's job is to take a <code>user</code> and <code>pass</code> on the input and turn those into the config for a backend on STDOUT in JSON format. This config will have any default parameters for the backend added, but it won't use configuration from environment variables or command line options - it is the job of the proxy program to make a complete config.</p>
 <p>This config generated must have this extra parameter - <code>_root</code> - root to use for the backend</p>
 <p>And it may have this parameter - <code>_obscure</code> - comma separated strings for parameters to obscure</p>
@@ -2817,7 +2817,7 @@ htpasswd -B htpasswd anotherUser</code></pre>
 <h2 id="auth-proxy-2">Auth Proxy</h2>
 <p>If you supply the parameter <code>--auth-proxy /path/to/program</code> then rclone will use that program to generate backends on the fly which then are used to authenticate incoming requests. This uses a simple JSON based protocl with input on STDIN and output on STDOUT.</p>
 <p><strong>PLEASE NOTE:</strong> <code>--auth-proxy</code> and <code>--authorized-keys</code> cannot be used together, if <code>--auth-proxy</code> is set the authorized keys option will be ignored.</p>
-<p>There is an example program <a href="https://github.com/rclone/rclone/blob/master/test_proxy.py">bin/test_proxy.py</a> in the rclone source code.</p>
+<p>There is an example program <a href="https://github.com/clive2000/rclone/blob/master/test_proxy.py">bin/test_proxy.py</a> in the rclone source code.</p>
 <p>The program's job is to take a <code>user</code> and <code>pass</code> on the input and turn those into the config for a backend on STDOUT in JSON format. This config will have any default parameters for the backend added, but it won't use configuration from environment variables or command line options - it is the job of the proxy program to make a complete config.</p>
 <p>This config generated must have this extra parameter - <code>_root</code> - root to use for the backend</p>
 <p>And it may have this parameter - <code>_obscure</code> - comma separated strings for parameters to obscure</p>
@@ -3025,7 +3025,7 @@ htpasswd -B htpasswd anotherUser</code></pre>
 <h3 id="windows">Windows</h3>
 <p>If your names have spaces in you need to put them in <code>"</code>, eg</p>
 <pre><code>rclone copy &quot;E:\folder name\folder name\folder name&quot; remote:backup</code></pre>
-<p>If you are using the root directory on its own then don't quote it (see <a href="https://github.com/rclone/rclone/issues/464">#464</a> for why), eg</p>
+<p>If you are using the root directory on its own then don't quote it (see <a href="https://github.com/clive2000/rclone/issues/464">#464</a> for why), eg</p>
 <pre><code>rclone copy E:\ remote:backup</code></pre>
 <h2 id="copying-files-or-directories-with-in-the-names">Copying files or directories with <code>:</code> in the names</h2>
 <p>rclone uses <code>:</code> to mark a remote name. This is, however, a valid filename component in non-Windows OSes. The remote name parser will only search for a <code>:</code> up to the first <code>/</code> so if you need to act on a file or directory like this then use the full path starting with a <code>/</code>, or use <code>./</code> as a current directory prefix.</p>
@@ -3151,11 +3151,11 @@ rclone sync -i /path/to/files remote:current-backup</code></pre>
 <h3 id="header-download">--header-download</h3>
 <p>Add an HTTP header for all download transactions. The flag can be repeated to add multiple headers.</p>
 <pre><code>rclone sync -i s3:test/src ~/dst --header-download &quot;X-Amz-Meta-Test: Foo&quot; --header-download &quot;X-Amz-Meta-Test2: Bar&quot;</code></pre>
-<p>See the GitHub issue <a href="https://github.com/rclone/rclone/issues/59">here</a> for currently supported backends.</p>
+<p>See the GitHub issue <a href="https://github.com/clive2000/rclone/issues/59">here</a> for currently supported backends.</p>
 <h3 id="header-upload">--header-upload</h3>
 <p>Add an HTTP header for all upload transactions. The flag can be repeated to add multiple headers.</p>
 <pre><code>rclone sync -i ~/src s3:test/dst --header-upload &quot;Content-Disposition: attachment; filename=&#39;cool.html&#39;&quot; --header-upload &quot;X-Amz-Meta-Test: FooBar&quot;</code></pre>
-<p>See the GitHub issue <a href="https://github.com/rclone/rclone/issues/59">here</a> for currently supported backends.</p>
+<p>See the GitHub issue <a href="https://github.com/clive2000/rclone/issues/59">here</a> for currently supported backends.</p>
 <h3 id="ignore-case-sync">--ignore-case-sync</h3>
 <p>Using this option will cause rclone to ignore the case of the files when synchronizing so files will not be copied/synced when the existing filenames are the same, even if the casing is different.</p>
 <h3 id="ignore-checksum">--ignore-checksum</h3>
@@ -3167,7 +3167,7 @@ rclone sync -i /path/to/files remote:current-backup</code></pre>
 <h3 id="ignore-size">--ignore-size</h3>
 <p>Normally rclone will look at modification time and size of files to see if they are equal. If you set this flag then rclone will check only the modification time. If <code>--checksum</code> is set then it only checks the checksum.</p>
 <p>It will also cause rclone to skip verifying the sizes are the same after transfer.</p>
-<p>This can be useful for transferring files to and from OneDrive which occasionally misreports the size of image files (see <a href="https://github.com/rclone/rclone/issues/399">#399</a> for more info).</p>
+<p>This can be useful for transferring files to and from OneDrive which occasionally misreports the size of image files (see <a href="https://github.com/clive2000/rclone/issues/399">#399</a> for more info).</p>
 <h3 id="i---ignore-times">-I, --ignore-times</h3>
 <p>Using this option will cause rclone to unconditionally upload all files regardless of the state of files on the destination.</p>
 <p>Normally rclone would skip any files that have the same modification time and are the same size (or have the same checksum if using <code>--checksum</code>).</p>
@@ -3331,7 +3331,7 @@ y/n/s/!/q&gt; n</code></pre>
 --password-command echo &quot;hello with space&quot;
 --password-command echo &quot;hello with &quot;&quot;quotes&quot;&quot; and space&quot;</code></pre>
 <p>See the <a href="#configuration-encryption">Configuration Encryption</a> for more info.</p>
-<p>See a <a href="https://github.com/rclone/rclone/wiki/Windows-Powershell-use-rclone-password-command-for-Config-file-password">Windows PowerShell example on the Wiki</a>.</p>
+<p>See a <a href="https://github.com/clive2000/rclone/wiki/Windows-Powershell-use-rclone-password-command-for-Config-file-password">Windows PowerShell example on the Wiki</a>.</p>
 <h3 id="p---progress">-P, --progress</h3>
 <p>This flag makes rclone update the stats in a static block in the terminal providing a realtime overview of the transfer.</p>
 <p>Any log messages will scroll above the static block. Log messages will push the static block down to the bottom of the terminal where it will stay.</p>
@@ -3977,7 +3977,7 @@ dir1/dir2/dir3/.ignore</code></pre>
 <p>Run this command in a terminal and rclone will download and then display the GUI in a web browser.</p>
 <pre><code>rclone rcd --rc-web-gui</code></pre>
 <p>This will produce logs like this and rclone needs to continue to run to serve the GUI:</p>
-<pre><code>2019/08/25 11:40:14 NOTICE: A new release for gui is present at https://github.com/rclone/rclone-webui-react/releases/download/v0.0.6/currentbuild.zip
+<pre><code>2019/08/25 11:40:14 NOTICE: A new release for gui is present at https://github.com/clive2000/rclone-webui-react/releases/download/v0.0.6/currentbuild.zip
 2019/08/25 11:40:14 NOTICE: Downloading webgui binary. Please wait. [Size: 3813937, Path :  /home/USER/.cache/rclone/webgui/v0.0.6.zip]
 2019/08/25 11:40:16 NOTICE: Unzipping
 2019/08/25 11:40:16 NOTICE: Serving remote control on http://127.0.0.1:5572/</code></pre>
@@ -4039,7 +4039,7 @@ dir1/dir2/dir3/.ignore</code></pre>
 <li><code>--rc-pass mypassword</code></li>
 </ul>
 <h2 id="project">Project</h2>
-<p>The GUI is being developed in the: <a href="https://github.com/rclone/rclone-webui-react">rclone/rclone-webui-react repository</a>.</p>
+<p>The GUI is being developed in the: <a href="https://github.com/clive2000/rclone-webui-react">rclone/rclone-webui-react repository</a>.</p>
 <p>Bug reports and contributions are very welcome :-)</p>
 <p>If you have questions then please ask them on the <a href="https://forum.rclone.org/">rclone forum</a>.</p>
 <h1 id="remote-controlling-rclone-with-its-api">Remote controlling rclone with its API</h1>
@@ -4857,7 +4857,7 @@ used for adding a plugin to the webgui
 
 This takes the following parameters
 
-- url: http url of the github repo where the plugin is hosted (http://github.com/rclone/rclone-webui-react)
+- url: http url of the github repo where the plugin is hosted (http://github.com/clive2000/rclone-webui-react)
 
 Eg
 
@@ -5187,7 +5187,7 @@ memory.
 
 You can also use the `-text` flag to produce a textual summary
 </code></pre>
-<p>$ go tool pprof -text http://localhost:5572/debug/pprof/heap Showing nodes accounting for 1537.03kB, 100% of 1537.03kB total flat flat% sum% cum cum% 1024.03kB 66.62% 66.62% 1024.03kB 66.62% github.com/rclone/rclone/vendor/golang.org/x/net/http2/hpack.addDecoderNode 513kB 33.38% 100% 513kB 33.38% net/http.newBufioWriterSize 0 0% 100% 1024.03kB 66.62% github.com/rclone/rclone/cmd/all.init 0 0% 100% 1024.03kB 66.62% github.com/rclone/rclone/cmd/serve.init 0 0% 100% 1024.03kB 66.62% github.com/rclone/rclone/cmd/serve/restic.init 0 0% 100% 1024.03kB 66.62% github.com/rclone/rclone/vendor/golang.org/x/net/http2.init 0 0% 100% 1024.03kB 66.62% github.com/rclone/rclone/vendor/golang.org/x/net/http2/hpack.init 0 0% 100% 1024.03kB 66.62% github.com/rclone/rclone/vendor/golang.org/x/net/http2/hpack.init.0 0 0% 100% 1024.03kB 66.62% main.init 0 0% 100% 513kB 33.38% net/http.(<em>conn).readRequest 0 0% 100% 513kB 33.38% net/http.(</em>conn).serve 0 0% 100% 1024.03kB 66.62% runtime.main</p>
+<p>$ go tool pprof -text http://localhost:5572/debug/pprof/heap Showing nodes accounting for 1537.03kB, 100% of 1537.03kB total flat flat% sum% cum cum% 1024.03kB 66.62% 66.62% 1024.03kB 66.62% github.com/clive2000/rclone/vendor/golang.org/x/net/http2/hpack.addDecoderNode 513kB 33.38% 100% 513kB 33.38% net/http.newBufioWriterSize 0 0% 100% 1024.03kB 66.62% github.com/clive2000/rclone/cmd/all.init 0 0% 100% 1024.03kB 66.62% github.com/clive2000/rclone/cmd/serve.init 0 0% 100% 1024.03kB 66.62% github.com/clive2000/rclone/cmd/serve/restic.init 0 0% 100% 1024.03kB 66.62% github.com/clive2000/rclone/vendor/golang.org/x/net/http2.init 0 0% 100% 1024.03kB 66.62% github.com/clive2000/rclone/vendor/golang.org/x/net/http2/hpack.init 0 0% 100% 1024.03kB 66.62% github.com/clive2000/rclone/vendor/golang.org/x/net/http2/hpack.init.0 0 0% 100% 1024.03kB 66.62% main.init 0 0% 100% 513kB 33.38% net/http.(<em>conn).readRequest 0 0% 100% 513kB 33.38% net/http.(</em>conn).serve 0 0% 100% 1024.03kB 66.62% runtime.main</p>
 <pre><code>
 ### Debugging go routine leaks
 
@@ -5544,35 +5544,35 @@ operations more efficient.
 | Name                         | Purge | Copy | Move | DirMove | CleanUp | ListR | StreamUpload | LinkSharing | About | EmptyDir |
 | ---------------------------- |:-----:|:----:|:----:|:-------:|:-------:|:-----:|:------------:|:------------:|:-----:| :------: |
 | 1Fichier                     | No    | No   | No   | No      | No      | No    | No           | No           |   No  |  Yes |
-| Amazon Drive                 | Yes   | No   | Yes  | Yes     | No [#575](https://github.com/rclone/rclone/issues/575) | No  | No  | No [#2178](https://github.com/rclone/rclone/issues/2178) | No  | Yes |
-| Amazon S3                    | No    | Yes  | No   | No      | Yes     | Yes   | Yes          | No [#2178](https://github.com/rclone/rclone/issues/2178) | No  | No |
+| Amazon Drive                 | Yes   | No   | Yes  | Yes     | No [#575](https://github.com/clive2000/rclone/issues/575) | No  | No  | No [#2178](https://github.com/clive2000/rclone/issues/2178) | No  | Yes |
+| Amazon S3                    | No    | Yes  | No   | No      | Yes     | Yes   | Yes          | No [#2178](https://github.com/clive2000/rclone/issues/2178) | No  | No |
 | Backblaze B2                 | No    | Yes  | No   | No      | Yes     | Yes   | Yes          | Yes          | No  | No |
 | Box                          | Yes   | Yes  | Yes  | Yes     | Yes ‡‡  | No    | Yes          | Yes          | No  | Yes |
 | Citrix ShareFile             | Yes   | Yes  | Yes  | Yes     | No      | No    | Yes          | No          | No  | Yes |
-| Dropbox                      | Yes   | Yes  | Yes  | Yes     | No [#575](https://github.com/rclone/rclone/issues/575) | No  | Yes | Yes | Yes | Yes |
-| FTP                          | No    | No   | Yes  | Yes     | No      | No    | Yes          | No [#2178](https://github.com/rclone/rclone/issues/2178) | No  | Yes |
-| Google Cloud Storage         | Yes   | Yes  | No   | No      | No      | Yes   | Yes          | No [#2178](https://github.com/rclone/rclone/issues/2178) | No  | No |
+| Dropbox                      | Yes   | Yes  | Yes  | Yes     | No [#575](https://github.com/clive2000/rclone/issues/575) | No  | Yes | Yes | Yes | Yes |
+| FTP                          | No    | No   | Yes  | Yes     | No      | No    | Yes          | No [#2178](https://github.com/clive2000/rclone/issues/2178) | No  | Yes |
+| Google Cloud Storage         | Yes   | Yes  | No   | No      | No      | Yes   | Yes          | No [#2178](https://github.com/clive2000/rclone/issues/2178) | No  | No |
 | Google Drive                 | Yes   | Yes  | Yes  | Yes     | Yes     | Yes   | Yes          | Yes         | Yes | Yes |
 | Google Photos                | No    | No   | No   | No      | No      | No    | No           | No          | No | No |
-| HTTP                         | No    | No   | No   | No      | No      | No    | No           | No [#2178](https://github.com/rclone/rclone/issues/2178) | No  | Yes |
-| Hubic                        | Yes † | Yes  | No   | No      | No      | Yes   | Yes          | No [#2178](https://github.com/rclone/rclone/issues/2178) | Yes | No |
+| HTTP                         | No    | No   | No   | No      | No      | No    | No           | No [#2178](https://github.com/clive2000/rclone/issues/2178) | No  | Yes |
+| Hubic                        | Yes † | Yes  | No   | No      | No      | Yes   | Yes          | No [#2178](https://github.com/clive2000/rclone/issues/2178) | Yes | No |
 | Jottacloud                   | Yes   | Yes  | Yes  | Yes     | Yes     | Yes   | No           | Yes                                                   | Yes | Yes |
 | Mail.ru Cloud                | Yes   | Yes  | Yes  | Yes     | Yes     | No    | No           | Yes                                                   | Yes | Yes |
-| Mega                         | Yes   | No   | Yes  | Yes     | Yes     | No    | No           | No [#2178](https://github.com/rclone/rclone/issues/2178) | Yes | Yes |
+| Mega                         | Yes   | No   | Yes  | Yes     | Yes     | No    | No           | No [#2178](https://github.com/clive2000/rclone/issues/2178) | Yes | Yes |
 | Memory                       | No    | Yes  | No   | No      | No      | Yes   | Yes          | No          | No | No |
-| Microsoft Azure Blob Storage | Yes   | Yes  | No   | No      | No      | Yes   | Yes          | No [#2178](https://github.com/rclone/rclone/issues/2178) | No  | No |
+| Microsoft Azure Blob Storage | Yes   | Yes  | No   | No      | No      | Yes   | Yes          | No [#2178](https://github.com/clive2000/rclone/issues/2178) | No  | No |
 | Microsoft OneDrive           | Yes   | Yes  | Yes  | Yes     | Yes     | No    | No           | Yes | Yes | Yes |
 | OpenDrive                    | Yes   | Yes  | Yes  | Yes     | No      | No    | No           | No                                                    | No  | Yes |
-| OpenStack Swift              | Yes † | Yes  | No   | No      | No      | Yes   | Yes          | No [#2178](https://github.com/rclone/rclone/issues/2178) | Yes | No |
+| OpenStack Swift              | Yes † | Yes  | No   | No      | No      | Yes   | Yes          | No [#2178](https://github.com/clive2000/rclone/issues/2178) | Yes | No |
 | pCloud                       | Yes   | Yes  | Yes  | Yes     | Yes     | No    | No           | Yes | Yes | Yes |
 | premiumize.me                | Yes   | No   | Yes  | Yes     | No      | No    | No           | Yes         | Yes | Yes |
-| put.io                       | Yes   | No   | Yes  | Yes     | Yes     | No    | Yes          | No [#2178](https://github.com/rclone/rclone/issues/2178) | Yes | Yes |
-| QingStor                     | No    | Yes  | No   | No      | Yes     | Yes   | No           | No [#2178](https://github.com/rclone/rclone/issues/2178) | No  | No |
+| put.io                       | Yes   | No   | Yes  | Yes     | Yes     | No    | Yes          | No [#2178](https://github.com/clive2000/rclone/issues/2178) | Yes | Yes |
+| QingStor                     | No    | Yes  | No   | No      | Yes     | Yes   | No           | No [#2178](https://github.com/clive2000/rclone/issues/2178) | No  | No |
 | Seafile                      | Yes   | Yes  | Yes  | Yes     | Yes     | Yes   | Yes          | Yes         | Yes | Yes |
-| SFTP                         | No    | No   | Yes  | Yes     | No      | No    | Yes          | No [#2178](https://github.com/rclone/rclone/issues/2178) | Yes  | Yes |
+| SFTP                         | No    | No   | Yes  | Yes     | No      | No    | Yes          | No [#2178](https://github.com/clive2000/rclone/issues/2178) | Yes  | Yes |
 | SugarSync                    | Yes   | Yes  | Yes  | Yes     | No      | No    | Yes          | Yes         | No  | Yes |
 | Tardigrade                   | Yes † | No   | No   | No      | No      | Yes   | Yes          | No          | No  | No  |
-| WebDAV                       | Yes   | Yes  | Yes  | Yes     | No      | No    | Yes ‡        | No [#2178](https://github.com/rclone/rclone/issues/2178) | Yes  | Yes |
+| WebDAV                       | Yes   | Yes  | Yes  | Yes     | No      | No    | Yes ‡        | No [#2178](https://github.com/clive2000/rclone/issues/2178) | Yes  | Yes |
 | Yandex Disk                  | Yes   | Yes  | Yes  | Yes     | Yes     | No    | Yes          | Yes         | Yes | Yes |
 | The local filesystem         | Yes   | No   | Yes  | Yes     | No      | No    | Yes          | No          | Yes | Yes |
 
@@ -6422,7 +6422,7 @@ If you are using server side encryption with KMS then you will find
 you can&#39;t transfer small objects.  As a work-around you can use the
 `--ignore-checksum` flag.
 
-A proper fix is being worked on in [issue #1824](https://github.com/rclone/rclone/issues/1824).
+A proper fix is being worked on in [issue #1824](https://github.com/clive2000/rclone/issues/1824).
 
 ### Glacier and Glacier Deep Archive ###
 
@@ -7927,7 +7927,7 @@ support SHA1.
 
 Sources which don&#39;t support SHA1, in particular `crypt` will upload
 large files without SHA1 checksums.  This may be fixed in the future
-(see [#1767](https://github.com/rclone/rclone/issues/1767)).
+(see [#1767](https://github.com/clive2000/rclone/issues/1767)).
 
 Files sizes below `--b2-upload-cutoff` will always have an SHA1
 regardless of the source.
@@ -7960,7 +7960,7 @@ Old versions of files, where available, are visible using the
 `--b2-versions` flag.
 
 **NB** Note that `--b2-versions` does not work with crypt at the
-moment [#1627](https://github.com/rclone/rclone/issues/1627). Using
+moment [#1627](https://github.com/clive2000/rclone/issues/1627). Using
 [--backup-dir](https://rclone.org/docs/#backup-dir-dir) with rclone is the recommended
 way of working around this.
 
@@ -8009,7 +8009,7 @@ All copy commands send the following 4 requests:
 The `b2_list_file_names` request will be sent once for every 1k files
 in the remote path, providing the checksum and modification time of
 the listed files. As of version 1.33 issue
-[#818](https://github.com/rclone/rclone/issues/818) causes extra requests
+[#818](https://github.com/clive2000/rclone/issues/818) causes extra requests
 to be sent when using B2 with Crypt. When a copy operation does not
 require any files to be uploaded, no more requests will be sent.
 
@@ -8577,7 +8577,7 @@ and its data for long running tasks like `rclone mount`.
 ## Status
 
 The cache backend code is working but it currently doesn&#39;t
-have a maintainer so there are [outstanding bugs](https://github.com/rclone/rclone/issues?q=is%3Aopen+is%3Aissue+label%3Abug+label%3A%22Remote%3A+Cache%22) which aren&#39;t getting fixed.
+have a maintainer so there are [outstanding bugs](https://github.com/clive2000/rclone/issues?q=is%3Aopen+is%3Aissue+label%3Abug+label%3A%22Remote%3A+Cache%22) which aren&#39;t getting fixed.
 
 The cache backend is due to be phased out in favour of the VFS caching
 layer eventually which is more tightly integrated into rclone.
@@ -8732,9 +8732,9 @@ on Linux flavors and Windows as cache is heavily dependent on them.
 
 Any reports or feedback on how cache behaves on this OS is greatly appreciated.
  
-- https://github.com/rclone/rclone/issues/1935
-- https://github.com/rclone/rclone/issues/1907
-- https://github.com/rclone/rclone/issues/1834 
+- https://github.com/clive2000/rclone/issues/1935
+- https://github.com/clive2000/rclone/issues/1907
+- https://github.com/clive2000/rclone/issues/1834 
 
 #### Risk of throttling ####
 
@@ -8753,8 +8753,8 @@ of adding the file in the cache at the same time if configured to do so.
 
 Future enhancements:
 
-- https://github.com/rclone/rclone/issues/1937
-- https://github.com/rclone/rclone/issues/1936 
+- https://github.com/clive2000/rclone/issues/1937
+- https://github.com/clive2000/rclone/issues/1936 
 
 #### cache and crypt ####
 
@@ -11816,7 +11816,7 @@ HTTP/2.  HTTP/2 is therefore disabled by default for the drive backend
 but can be re-enabled here.  When the issue is solved this flag will
 be removed.
 
-See: https://github.com/rclone/rclone/issues/3631
+See: https://github.com/clive2000/rclone/issues/3631
 
 
 
@@ -11838,7 +11838,7 @@ the in-progress sync.
 Note that this detection is relying on error message strings which
 Google don&#39;t document so it may break in the future.
 
-See: https://github.com/rclone/rclone/issues/3857
+See: https://github.com/clive2000/rclone/issues/3857
 
 
 - Config:      stop_on_upload_limit
@@ -14051,7 +14051,7 @@ y/e/d&gt; y</code></pre>
 <h4 id="path-length">Path length</h4>
 <p>The entire path, including the file name, must contain fewer than 400 characters for OneDrive, OneDrive for Business and SharePoint Online. If you are encrypting file and folder names with rclone, you may want to pay attention to this limitation because the encrypted names are typically longer than the original ones.</p>
 <h4 id="number-of-files">Number of files</h4>
-<p>OneDrive seems to be OK with at least 50,000 files in a folder, but at 100,000 rclone will get errors listing the directory like <code>couldn’t list files: UnknownError:</code>. See <a href="https://github.com/rclone/rclone/issues/2707">#2707</a> for more info.</p>
+<p>OneDrive seems to be OK with at least 50,000 files in a folder, but at 100,000 rclone will get errors listing the directory like <code>couldn’t list files: UnknownError:</code>. See <a href="https://github.com/clive2000/rclone/issues/2707">#2707</a> for more info.</p>
 <p>An official document about the limitations for different types of OneDrive can be found <a href="https://support.office.com/en-us/article/invalid-file-names-and-file-types-in-onedrive-onedrive-for-business-and-sharepoint-64883a5d-228e-48f5-b3d2-eb39e07630fa">here</a>.</p>
 <h3 id="versions-1">Versions</h3>
 <p>Every change in a file OneDrive causes the service to create a new version of the the file. This counts against a users quota. For example changing the modification time of a file creates a second version, so the file apparently uses twice the space.</p>
@@ -16708,7 +16708,7 @@ y/e/d&gt; y</code></pre>
 <h3 id="nextcloud">Nextcloud</h3>
 <p>This is configured in an identical way to Owncloud. Note that Nextcloud does not support streaming of files (<code>rcat</code>) whereas Owncloud does. This <a href="https://github.com/nextcloud/nextcloud-snap/issues/365">may be fixed</a> in the future.</p>
 <h3 id="sharepoint">Sharepoint</h3>
-<p>Rclone can be used with Sharepoint provided by OneDrive for Business or Office365 Education Accounts. This feature is only needed for a few of these Accounts, mostly Office365 Education ones. These accounts are sometimes not verified by the domain owner <a href="https://github.com/rclone/rclone/issues/1975">github#1975</a></p>
+<p>Rclone can be used with Sharepoint provided by OneDrive for Business or Office365 Education Accounts. This feature is only needed for a few of these Accounts, mostly Office365 Education ones. These accounts are sometimes not verified by the domain owner <a href="https://github.com/clive2000/rclone/issues/1975">github#1975</a></p>
 <p>This means that these accounts can't be added using the official API (other Accounts should work with the "onedrive" option). However, it is possible to access them using webdav.</p>
 <p>To use a sharepoint remote with rclone, add it like this: First, you need to get your remote's URL:</p>
 <ul>
@@ -17154,7 +17154,7 @@ y/e/d&gt; y</code></pre>
 <h3 id="long-paths-on-windows">Long paths on Windows</h3>
 <p>Rclone handles long paths automatically, by converting all paths to long <a href="https://msdn.microsoft.com/en-us/library/windows/desktop/aa365247(v=vs.85).aspx#maxpath">UNC paths</a> which allows paths up to 32,767 characters.</p>
 <p>This is why you will see that your paths, for instance <code>c:\files</code> is converted to the UNC path <code>\\?\c:\files</code> in the output, and <code>\\server\share</code> is converted to <code>\\?\UNC\server\share</code>.</p>
-<p>However, in rare cases this may cause problems with buggy file system drivers like <a href="https://github.com/rclone/rclone/issues/261">EncFS</a>. To disable UNC conversion globally, add this to your <code>.rclone.conf</code> file:</p>
+<p>However, in rare cases this may cause problems with buggy file system drivers like <a href="https://github.com/clive2000/rclone/issues/261">EncFS</a>. To disable UNC conversion globally, add this to your <code>.rclone.conf</code> file:</p>
 <pre><code>[local]
 nounc = true</code></pre>
 <p>If you want to selectively disable UNC, you can add it to a separate entry like this:</p>
@@ -17301,7 +17301,7 @@ $ tree /tmp/b
 <h4 id="local-no-check-updated">--local-no-check-updated</h4>
 <p>Don't check to see if the files change during upload</p>
 <p>Normally rclone checks the size and modification time of files as they are being uploaded and aborts with a message which starts "can't copy - source file is being updated" if the file changes during upload.</p>
-<p>However on some file systems this modification time check may fail (eg <a href="https://github.com/rclone/rclone/issues/2206">Glusterfs #2206</a>) so this check can be disabled with this flag.</p>
+<p>However on some file systems this modification time check may fail (eg <a href="https://github.com/clive2000/rclone/issues/2206">Glusterfs #2206</a>) so this check can be disabled with this flag.</p>
 <p>If this flag is set, rclone will use its best efforts to transfer a file which is being updated. If the file is only having things appended to it (eg a log) then rclone will transfer the log file with the size it had the first time rclone saw it.</p>
 <p>If the file is being modified throughout (not just appended to) then the transfer may fail with a hash check failure.</p>
 <p>In detail, once the file has had stat() called on it for the first time we:</p>
@@ -17385,7 +17385,7 @@ $ tree /tmp/b
 </ul>
 <h1 id="changelog">Changelog</h1>
 <h2 id="v1.53.0---2020-09-02">v1.53.0 - 2020-09-02</h2>
-<p><a href="https://github.com/rclone/rclone/compare/v1.52.0...v1.53.0">See commits</a></p>
+<p><a href="https://github.com/clive2000/rclone/compare/v1.52.0...v1.53.0">See commits</a></p>
 <ul>
 <li>New Features
 <ul>
@@ -17633,7 +17633,7 @@ $ tree /tmp/b
 </ul></li>
 </ul>
 <h2 id="v1.52.3---2020-08-07">v1.52.3 - 2020-08-07</h2>
-<p><a href="https://github.com/rclone/rclone/compare/v1.52.2...v1.52.3">See commits</a></p>
+<p><a href="https://github.com/clive2000/rclone/compare/v1.52.2...v1.52.3">See commits</a></p>
 <ul>
 <li>Bug Fixes
 <ul>
@@ -17678,7 +17678,7 @@ $ tree /tmp/b
 </ul></li>
 </ul>
 <h2 id="v1.52.2---2020-06-24">v1.52.2 - 2020-06-24</h2>
-<p><a href="https://github.com/rclone/rclone/compare/v1.52.1...v1.52.2">See commits</a></p>
+<p><a href="https://github.com/clive2000/rclone/compare/v1.52.1...v1.52.2">See commits</a></p>
 <ul>
 <li>Bug Fixes
 <ul>
@@ -17718,7 +17718,7 @@ $ tree /tmp/b
 </ul></li>
 </ul>
 <h2 id="v1.52.1---2020-06-10">v1.52.1 - 2020-06-10</h2>
-<p><a href="https://github.com/rclone/rclone/compare/v1.52.0...v1.52.1">See commits</a></p>
+<p><a href="https://github.com/clive2000/rclone/compare/v1.52.0...v1.52.1">See commits</a></p>
 <ul>
 <li>Bug Fixes
 <ul>
@@ -17767,7 +17767,7 @@ $ tree /tmp/b
 </ul>
 <h2 id="v1.52.0---2020-05-27">v1.52.0 - 2020-05-27</h2>
 <p>Special thanks to Martin Michlmayr for proof reading and correcting all the docs and Edward Barker for helping re-write the front page.</p>
-<p><a href="https://github.com/rclone/rclone/compare/v1.51.0...v1.52.0">See commits</a></p>
+<p><a href="https://github.com/clive2000/rclone/compare/v1.51.0...v1.52.0">See commits</a></p>
 <ul>
 <li>New backends
 <ul>
@@ -18355,7 +18355,7 @@ $ tree /tmp/b
 <li>Convert python scripts to python3 (Nick Craig-Wood)</li>
 <li>Swap Azure/go-ansiterm for mattn/go-colorable (Nick Craig-Wood)</li>
 <li>Dockerfile fixes (Matei David)</li>
-<li>Add <a href="https://github.com/rclone/rclone/blob/master/CONTRIBUTING.md#writing-a-plugin">plugin support</a> for backends and commands (Richard Patel)</li>
+<li>Add <a href="https://github.com/clive2000/rclone/blob/master/CONTRIBUTING.md#writing-a-plugin">plugin support</a> for backends and commands (Richard Patel)</li>
 </ul></li>
 <li>config
 <ul>
@@ -21509,8 +21509,8 @@ $ tree /tmp/b
 <h2 id="bugs">Bugs</h2>
 <p>Bugs are stored in rclone's GitHub project:</p>
 <ul>
-<li><a href="https://github.com/rclone/rclone/issues?q=is%3Aopen+is%3Aissue+label%3Abug">Reported bugs</a></li>
-<li><a href="https://github.com/rclone/rclone/issues?q=is%3Aopen+is%3Aissue+milestone%3A%22Known+Problem%22">Known issues</a></li>
+<li><a href="https://github.com/clive2000/rclone/issues?q=is%3Aopen+is%3Aissue+label%3Abug">Reported bugs</a></li>
+<li><a href="https://github.com/clive2000/rclone/issues?q=is%3Aopen+is%3Aissue+milestone%3A%22Known+Problem%22">Known issues</a></li>
 </ul>
 <h2 id="frequently-asked-questions">Frequently Asked Questions</h2>
 <h3 id="do-all-cloud-storage-systems-support-all-rclone-commands">Do all cloud storage systems support all rclone commands</h3>
@@ -22019,7 +22019,7 @@ THE SOFTWARE.</code></pre>
 <h2 id="github-repository">GitHub repository</h2>
 <p>The project's repository is located at:</p>
 <ul>
-<li>https://github.com/rclone/rclone</li>
+<li>https://github.com/clive2000/rclone</li>
 </ul>
 <p>There you can file bug reports or contribute with pull requests.</p>
 <h2 id="twitter">Twitter</h2>

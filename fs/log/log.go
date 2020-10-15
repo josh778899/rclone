@@ -9,7 +9,7 @@ import (
 	"runtime"
 	"strings"
 
-	"github.com/rclone/rclone/fs"
+	"github.com/clive2000/rclone/fs"
 	"github.com/sirupsen/logrus"
 )
 

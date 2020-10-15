@@ -5,7 +5,7 @@ package fserrors
 import (
 	"syscall"
 
-	"github.com/rclone/rclone/lib/errors"
+	"github.com/clive2000/rclone/lib/errors"
 )
 
 // IsErrNoSpace checks a possibly wrapped error to

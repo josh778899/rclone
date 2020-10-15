@@ -239,7 +239,7 @@ If your names have spaces in you need to put them in `"`, eg
     rclone copy "E:\folder name\folder name\folder name" remote:backup
 
 If you are using the root directory on its own then don't quote it
-(see [#464](https://github.com/rclone/rclone/issues/464) for why), eg
+(see [#464](https://github.com/clive2000/rclone/issues/464) for why), eg
 
     rclone copy E:\ remote:backup
 
@@ -626,7 +626,7 @@ add multiple headers.
 rclone sync -i s3:test/src ~/dst --header-download "X-Amz-Meta-Test: Foo" --header-download "X-Amz-Meta-Test2: Bar"
 ```
 
-See the GitHub issue [here](https://github.com/rclone/rclone/issues/59) for
+See the GitHub issue [here](https://github.com/clive2000/rclone/issues/59) for
 currently supported backends.
 
 ### --header-upload ###
@@ -638,7 +638,7 @@ multiple headers.
 rclone sync -i ~/src s3:test/dst --header-upload "Content-Disposition: attachment; filename='cool.html'" --header-upload "X-Amz-Meta-Test: FooBar"
 ```
 
-See the GitHub issue [here](https://github.com/rclone/rclone/issues/59) for
+See the GitHub issue [here](https://github.com/clive2000/rclone/issues/59) for
 currently supported backends.
 
 ### --ignore-case-sync ###
@@ -677,7 +677,7 @@ after transfer.
 
 This can be useful for transferring files to and from OneDrive which
 occasionally misreports the size of image files (see
-[#399](https://github.com/rclone/rclone/issues/399) for more info).
+[#399](https://github.com/clive2000/rclone/issues/399) for more info).
 
 ### -I, --ignore-times ###
 
@@ -1087,7 +1087,7 @@ Eg
 
 See the [Configuration Encryption](#configuration-encryption) for more info.
 
-See a [Windows PowerShell example on the Wiki](https://github.com/rclone/rclone/wiki/Windows-Powershell-use-rclone-password-command-for-Config-file-password).
+See a [Windows PowerShell example on the Wiki](https://github.com/clive2000/rclone/wiki/Windows-Powershell-use-rclone-password-command-for-Config-file-password).
 
 ### -P, --progress ###
 

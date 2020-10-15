@@ -3,8 +3,8 @@ package policy
 import (
 	"context"
 
-	"github.com/rclone/rclone/backend/union/upstream"
-	"github.com/rclone/rclone/fs"
+	"github.com/clive2000/rclone/backend/union/upstream"
+	"github.com/clive2000/rclone/fs"
 )
 
 func init() {

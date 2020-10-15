@@ -16,10 +16,10 @@ import (
 	runewidth "github.com/mattn/go-runewidth"
 	termbox "github.com/nsf/termbox-go"
 	"github.com/pkg/errors"
-	"github.com/rclone/rclone/cmd"
-	"github.com/rclone/rclone/cmd/ncdu/scan"
-	"github.com/rclone/rclone/fs"
-	"github.com/rclone/rclone/fs/operations"
+	"github.com/clive2000/rclone/cmd"
+	"github.com/clive2000/rclone/cmd/ncdu/scan"
+	"github.com/clive2000/rclone/fs"
+	"github.com/clive2000/rclone/fs/operations"
 	"github.com/spf13/cobra"
 )
 

@@ -9,7 +9,7 @@ import (
 	"strconv"
 	"strings"
 
-	"github.com/rclone/rclone/lib/encoder"
+	"github.com/clive2000/rclone/lib/encoder"
 )
 
 const (

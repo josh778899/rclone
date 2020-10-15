@@ -12,9 +12,9 @@ import (
 
 	"github.com/pkg/errors"
 	"github.com/pkg/sftp"
-	"github.com/rclone/rclone/fs"
-	"github.com/rclone/rclone/fs/hash"
-	"github.com/rclone/rclone/vfs"
+	"github.com/clive2000/rclone/fs"
+	"github.com/clive2000/rclone/fs/hash"
+	"github.com/clive2000/rclone/vfs"
 	"golang.org/x/crypto/ssh"
 )
 

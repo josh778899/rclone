@@ -3,9 +3,9 @@ package rcd
 import (
 	"log"
 
-	"github.com/rclone/rclone/cmd"
-	"github.com/rclone/rclone/fs/rc/rcflags"
-	"github.com/rclone/rclone/fs/rc/rcserver"
+	"github.com/clive2000/rclone/cmd"
+	"github.com/clive2000/rclone/fs/rc/rcflags"
+	"github.com/clive2000/rclone/fs/rc/rcserver"
 	"github.com/spf13/cobra"
 )
 

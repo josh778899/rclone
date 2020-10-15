@@ -12,7 +12,7 @@ import (
 	"text/template"
 	"time"
 
-	"github.com/rclone/rclone/cmd"
+	"github.com/clive2000/rclone/cmd"
 	"github.com/spf13/cobra"
 	"github.com/spf13/cobra/doc"
 	"github.com/spf13/pflag"

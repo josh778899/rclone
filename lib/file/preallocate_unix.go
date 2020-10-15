@@ -6,7 +6,7 @@ import (
 	"os"
 	"sync/atomic"
 
-	"github.com/rclone/rclone/fs"
+	"github.com/clive2000/rclone/fs"
 	"golang.org/x/sys/unix"
 )
 

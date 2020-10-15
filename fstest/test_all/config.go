@@ -8,7 +8,7 @@ import (
 	"path"
 
 	"github.com/pkg/errors"
-	"github.com/rclone/rclone/fs"
+	"github.com/clive2000/rclone/fs"
 	yaml "gopkg.in/yaml.v2"
 )
 

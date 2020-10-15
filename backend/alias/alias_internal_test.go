@@ -8,9 +8,9 @@ import (
 	"sort"
 	"testing"
 
-	_ "github.com/rclone/rclone/backend/local" // pull in test backend
-	"github.com/rclone/rclone/fs"
-	"github.com/rclone/rclone/fs/config"
+	_ "github.com/clive2000/rclone/backend/local" // pull in test backend
+	"github.com/clive2000/rclone/fs"
+	"github.com/clive2000/rclone/fs/config"
 	"github.com/stretchr/testify/require"
 )
 

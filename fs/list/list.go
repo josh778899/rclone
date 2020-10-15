@@ -7,8 +7,8 @@ import (
 	"strings"
 
 	"github.com/pkg/errors"
-	"github.com/rclone/rclone/fs"
-	"github.com/rclone/rclone/fs/filter"
+	"github.com/clive2000/rclone/fs"
+	"github.com/clive2000/rclone/fs/filter"
 )
 
 // DirSorted reads Object and *Dir into entries for the given Fs.

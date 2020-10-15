@@ -12,11 +12,11 @@ import (
 	"time"
 
 	"github.com/pkg/errors"
-	"github.com/rclone/rclone/fs"
-	"github.com/rclone/rclone/fs/config"
-	"github.com/rclone/rclone/fs/config/configmap"
-	"github.com/rclone/rclone/fs/fshttp"
-	"github.com/rclone/rclone/lib/random"
+	"github.com/clive2000/rclone/fs"
+	"github.com/clive2000/rclone/fs/config"
+	"github.com/clive2000/rclone/fs/config/configmap"
+	"github.com/clive2000/rclone/fs/fshttp"
+	"github.com/clive2000/rclone/lib/random"
 	"github.com/skratchdot/open-golang/open"
 	"golang.org/x/oauth2"
 )

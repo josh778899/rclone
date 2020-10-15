@@ -14,9 +14,9 @@ import (
 	"github.com/coreos/go-semver/semver"
 	"github.com/pkg/errors"
 
-	"github.com/rclone/rclone/fs"
-	"github.com/rclone/rclone/fs/config/obscure"
-	"github.com/rclone/rclone/lib/atexit"
+	"github.com/clive2000/rclone/fs"
+	"github.com/clive2000/rclone/fs/config/obscure"
+	"github.com/clive2000/rclone/lib/atexit"
 )
 
 func init() {

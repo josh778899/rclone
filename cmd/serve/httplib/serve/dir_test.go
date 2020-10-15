@@ -10,7 +10,7 @@ import (
 	"testing"
 	"time"
 
-	"github.com/rclone/rclone/cmd/serve/httplib/serve/data"
+	"github.com/clive2000/rclone/cmd/serve/httplib/serve/data"
 	"github.com/stretchr/testify/assert"
 	"github.com/stretchr/testify/require"
 )

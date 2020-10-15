@@ -11,7 +11,7 @@ package cmount
 import (
 	"testing"
 
-	"github.com/rclone/rclone/vfs/vfstest"
+	"github.com/clive2000/rclone/vfs/vfstest"
 )
 
 func TestMount(t *testing.T) {

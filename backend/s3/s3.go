@@ -35,23 +35,23 @@ import (
 	"github.com/aws/aws-sdk-go/service/s3"
 	"github.com/ncw/swift"
 	"github.com/pkg/errors"
-	"github.com/rclone/rclone/fs"
-	"github.com/rclone/rclone/fs/config"
-	"github.com/rclone/rclone/fs/config/configmap"
-	"github.com/rclone/rclone/fs/config/configstruct"
-	"github.com/rclone/rclone/fs/fserrors"
-	"github.com/rclone/rclone/fs/fshttp"
-	"github.com/rclone/rclone/fs/hash"
-	"github.com/rclone/rclone/fs/operations"
-	"github.com/rclone/rclone/fs/walk"
-	"github.com/rclone/rclone/lib/atexit"
-	"github.com/rclone/rclone/lib/bucket"
-	"github.com/rclone/rclone/lib/encoder"
-	"github.com/rclone/rclone/lib/pacer"
-	"github.com/rclone/rclone/lib/pool"
-	"github.com/rclone/rclone/lib/readers"
-	"github.com/rclone/rclone/lib/rest"
-	"github.com/rclone/rclone/lib/structs"
+	"github.com/clive2000/rclone/fs"
+	"github.com/clive2000/rclone/fs/config"
+	"github.com/clive2000/rclone/fs/config/configmap"
+	"github.com/clive2000/rclone/fs/config/configstruct"
+	"github.com/clive2000/rclone/fs/fserrors"
+	"github.com/clive2000/rclone/fs/fshttp"
+	"github.com/clive2000/rclone/fs/hash"
+	"github.com/clive2000/rclone/fs/operations"
+	"github.com/clive2000/rclone/fs/walk"
+	"github.com/clive2000/rclone/lib/atexit"
+	"github.com/clive2000/rclone/lib/bucket"
+	"github.com/clive2000/rclone/lib/encoder"
+	"github.com/clive2000/rclone/lib/pacer"
+	"github.com/clive2000/rclone/lib/pool"
+	"github.com/clive2000/rclone/lib/readers"
+	"github.com/clive2000/rclone/lib/rest"
+	"github.com/clive2000/rclone/lib/structs"
 	"golang.org/x/sync/errgroup"
 )
 
@@ -1214,7 +1214,7 @@ There is currently an unsolved issue with the s3 (specifically minio) backend
 and HTTP/2.  HTTP/2 is enabled by default for the s3 backend but can be
 disabled here.  When the issue is solved this flag will be removed.
 
-See: https://github.com/rclone/rclone/issues/4673, https://github.com/rclone/rclone/issues/3631
+See: https://github.com/clive2000/rclone/issues/4673, https://github.com/clive2000/rclone/issues/3631
 
 `,
 		},
@@ -1753,7 +1753,7 @@ func (f *Fs) list(ctx context.Context, bucket, directory, prefix string, addBuck
 	// it doesn't encode CommonPrefixes.
 	// See: https://tracker.ceph.com/issues/41870
 	//
-	// This does not work under IBM COS also: See https://github.com/rclone/rclone/issues/3345
+	// This does not work under IBM COS also: See https://github.com/clive2000/rclone/issues/3345
 	// though maybe it does on some versions.
 	//
 	// This does work with minio but was only added relatively recently

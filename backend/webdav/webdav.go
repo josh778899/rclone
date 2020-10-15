@@ -22,17 +22,17 @@ import (
 	"time"
 
 	"github.com/pkg/errors"
-	"github.com/rclone/rclone/backend/webdav/api"
-	"github.com/rclone/rclone/backend/webdav/odrvcookie"
-	"github.com/rclone/rclone/fs"
-	"github.com/rclone/rclone/fs/config/configmap"
-	"github.com/rclone/rclone/fs/config/configstruct"
-	"github.com/rclone/rclone/fs/config/obscure"
-	"github.com/rclone/rclone/fs/fserrors"
-	"github.com/rclone/rclone/fs/fshttp"
-	"github.com/rclone/rclone/fs/hash"
-	"github.com/rclone/rclone/lib/pacer"
-	"github.com/rclone/rclone/lib/rest"
+	"github.com/clive2000/rclone/backend/webdav/api"
+	"github.com/clive2000/rclone/backend/webdav/odrvcookie"
+	"github.com/clive2000/rclone/fs"
+	"github.com/clive2000/rclone/fs/config/configmap"
+	"github.com/clive2000/rclone/fs/config/configstruct"
+	"github.com/clive2000/rclone/fs/config/obscure"
+	"github.com/clive2000/rclone/fs/fserrors"
+	"github.com/clive2000/rclone/fs/fshttp"
+	"github.com/clive2000/rclone/fs/hash"
+	"github.com/clive2000/rclone/lib/pacer"
+	"github.com/clive2000/rclone/lib/rest"
 )
 
 const (

@@ -11,8 +11,8 @@ import (
 	"testing"
 
 	"github.com/pkg/errors"
-	"github.com/rclone/rclone/backend/crypt/pkcs7"
-	"github.com/rclone/rclone/lib/readers"
+	"github.com/clive2000/rclone/backend/crypt/pkcs7"
+	"github.com/clive2000/rclone/lib/readers"
 	"github.com/stretchr/testify/assert"
 	"github.com/stretchr/testify/require"
 )

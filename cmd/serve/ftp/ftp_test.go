@@ -10,11 +10,11 @@ package ftp
 import (
 	"testing"
 
-	_ "github.com/rclone/rclone/backend/local"
-	"github.com/rclone/rclone/cmd/serve/servetest"
-	"github.com/rclone/rclone/fs"
-	"github.com/rclone/rclone/fs/config/configmap"
-	"github.com/rclone/rclone/fs/config/obscure"
+	_ "github.com/clive2000/rclone/backend/local"
+	"github.com/clive2000/rclone/cmd/serve/servetest"
+	"github.com/clive2000/rclone/fs"
+	"github.com/clive2000/rclone/fs/config/configmap"
+	"github.com/clive2000/rclone/fs/config/obscure"
 	"github.com/stretchr/testify/assert"
 	ftp "goftp.io/server/core"
 )

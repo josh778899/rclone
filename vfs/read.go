@@ -8,10 +8,10 @@ import (
 	"time"
 
 	"github.com/pkg/errors"
-	"github.com/rclone/rclone/fs"
-	"github.com/rclone/rclone/fs/accounting"
-	"github.com/rclone/rclone/fs/chunkedreader"
-	"github.com/rclone/rclone/fs/hash"
+	"github.com/clive2000/rclone/fs"
+	"github.com/clive2000/rclone/fs/accounting"
+	"github.com/clive2000/rclone/fs/chunkedreader"
+	"github.com/clive2000/rclone/fs/hash"
 )
 
 // ReadFileHandle is an open for read file handle on a File

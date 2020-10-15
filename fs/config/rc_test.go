@@ -4,11 +4,11 @@ import (
 	"context"
 	"testing"
 
-	_ "github.com/rclone/rclone/backend/local"
-	"github.com/rclone/rclone/fs"
-	"github.com/rclone/rclone/fs/config"
-	"github.com/rclone/rclone/fs/config/obscure"
-	"github.com/rclone/rclone/fs/rc"
+	_ "github.com/clive2000/rclone/backend/local"
+	"github.com/clive2000/rclone/fs"
+	"github.com/clive2000/rclone/fs/config"
+	"github.com/clive2000/rclone/fs/config/obscure"
+	"github.com/clive2000/rclone/fs/rc"
 	"github.com/stretchr/testify/assert"
 	"github.com/stretchr/testify/require"
 )

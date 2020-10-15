@@ -4,8 +4,8 @@ package box_test
 import (
 	"testing"
 
-	"github.com/rclone/rclone/backend/box"
-	"github.com/rclone/rclone/fstest/fstests"
+	"github.com/clive2000/rclone/backend/box"
+	"github.com/clive2000/rclone/fstest/fstests"
 )
 
 // TestIntegration runs integration tests against the remote

@@ -3,7 +3,7 @@
 package vfsflags
 
 import (
-	"github.com/rclone/rclone/fs/config/flags"
+	"github.com/clive2000/rclone/fs/config/flags"
 	"github.com/spf13/pflag"
 	"golang.org/x/sys/unix"
 )

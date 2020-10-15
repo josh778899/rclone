@@ -5,8 +5,8 @@ import (
 	"io"
 	"time"
 
-	"github.com/rclone/rclone/fs"
-	"github.com/rclone/rclone/fs/hash"
+	"github.com/clive2000/rclone/fs"
+	"github.com/clive2000/rclone/fs/hash"
 )
 
 // Object describes a seafile object (also commonly called a file)

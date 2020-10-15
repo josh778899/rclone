@@ -977,7 +977,7 @@ HTTP/2.  HTTP/2 is therefore disabled by default for the drive backend
 but can be re-enabled here.  When the issue is solved this flag will
 be removed.
 
-See: https://github.com/rclone/rclone/issues/3631
+See: https://github.com/clive2000/rclone/issues/3631
 
 
 
@@ -999,7 +999,7 @@ the in-progress sync.
 Note that this detection is relying on error message strings which
 Google don't document so it may break in the future.
 
-See: https://github.com/rclone/rclone/issues/3857
+See: https://github.com/clive2000/rclone/issues/3857
 
 
 - Config:      stop_on_upload_limit

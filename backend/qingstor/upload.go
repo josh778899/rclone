@@ -14,8 +14,8 @@ import (
 	"sync"
 
 	"github.com/pkg/errors"
-	"github.com/rclone/rclone/fs"
-	"github.com/rclone/rclone/lib/atexit"
+	"github.com/clive2000/rclone/fs"
+	"github.com/clive2000/rclone/lib/atexit"
 	qs "github.com/yunify/qingstor-sdk-go/v3/service"
 )
 

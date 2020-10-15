@@ -17,8 +17,8 @@ import (
 	"time"
 
 	"github.com/pkg/errors"
-	"github.com/rclone/rclone/fs"
-	"github.com/rclone/rclone/fs/walk"
+	"github.com/clive2000/rclone/fs"
+	"github.com/clive2000/rclone/fs/walk"
 	bolt "go.etcd.io/bbolt"
 )
 

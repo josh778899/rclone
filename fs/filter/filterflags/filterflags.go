@@ -2,9 +2,9 @@
 package filterflags
 
 import (
-	"github.com/rclone/rclone/fs/config/flags"
-	"github.com/rclone/rclone/fs/filter"
-	"github.com/rclone/rclone/fs/rc"
+	"github.com/clive2000/rclone/fs/config/flags"
+	"github.com/clive2000/rclone/fs/filter"
+	"github.com/clive2000/rclone/fs/rc"
 	"github.com/spf13/pflag"
 )
 

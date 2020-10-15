@@ -8,9 +8,9 @@ import (
 	"regexp"
 
 	"github.com/pkg/errors"
-	"github.com/rclone/rclone/fs"
-	"github.com/rclone/rclone/fs/list"
-	"github.com/rclone/rclone/fs/operations"
+	"github.com/clive2000/rclone/fs"
+	"github.com/clive2000/rclone/fs/list"
+	"github.com/clive2000/rclone/fs/operations"
 )
 
 // MatchTestRemote matches the remote names used for testing (copied

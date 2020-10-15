@@ -4,8 +4,8 @@ import (
 	"context"
 	"os"
 
-	"github.com/rclone/rclone/cmd"
-	"github.com/rclone/rclone/fs/operations"
+	"github.com/clive2000/rclone/cmd"
+	"github.com/clive2000/rclone/fs/operations"
 	"github.com/spf13/cobra"
 )
 

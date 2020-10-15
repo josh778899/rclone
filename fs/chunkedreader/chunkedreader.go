@@ -6,8 +6,8 @@ import (
 	"io"
 	"sync"
 
-	"github.com/rclone/rclone/fs"
-	"github.com/rclone/rclone/fs/hash"
+	"github.com/clive2000/rclone/fs"
+	"github.com/clive2000/rclone/fs/hash"
 )
 
 // io related errors returned by ChunkedReader

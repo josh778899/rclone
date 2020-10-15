@@ -12,11 +12,11 @@ import (
 	"testing"
 
 	"github.com/pkg/errors"
-	"github.com/rclone/rclone/fs"
-	"github.com/rclone/rclone/fs/accounting"
-	"github.com/rclone/rclone/fs/operations"
-	"github.com/rclone/rclone/fstest"
-	"github.com/rclone/rclone/lib/readers"
+	"github.com/clive2000/rclone/fs"
+	"github.com/clive2000/rclone/fs/accounting"
+	"github.com/clive2000/rclone/fs/operations"
+	"github.com/clive2000/rclone/fstest"
+	"github.com/clive2000/rclone/lib/readers"
 	"github.com/stretchr/testify/assert"
 	"github.com/stretchr/testify/require"
 )

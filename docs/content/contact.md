@@ -15,7 +15,7 @@ Forum for questions and general discussion:
 
 The project's repository is located at:
 
-  * https://github.com/rclone/rclone
+  * https://github.com/clive2000/rclone
 
 There you can file bug reports or contribute with pull requests.
 

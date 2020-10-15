@@ -5,8 +5,8 @@ import (
 	"io"
 
 	"github.com/pkg/errors"
-	"github.com/rclone/rclone/fs"
-	"github.com/rclone/rclone/fs/accounting"
+	"github.com/clive2000/rclone/fs"
+	"github.com/clive2000/rclone/fs/accounting"
 	"golang.org/x/sync/errgroup"
 )
 

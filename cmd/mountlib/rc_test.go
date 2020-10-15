@@ -9,11 +9,11 @@ import (
 	"testing"
 	"time"
 
-	_ "github.com/rclone/rclone/backend/local"
-	_ "github.com/rclone/rclone/cmd/cmount"
-	_ "github.com/rclone/rclone/cmd/mount"
-	_ "github.com/rclone/rclone/cmd/mount2"
-	"github.com/rclone/rclone/fs/rc"
+	_ "github.com/clive2000/rclone/backend/local"
+	_ "github.com/clive2000/rclone/cmd/cmount"
+	_ "github.com/clive2000/rclone/cmd/mount"
+	_ "github.com/clive2000/rclone/cmd/mount2"
+	"github.com/clive2000/rclone/fs/rc"
 	"github.com/stretchr/testify/assert"
 	"github.com/stretchr/testify/require"
 )
