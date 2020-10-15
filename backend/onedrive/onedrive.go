@@ -634,17 +634,17 @@ func NewFs(name, root string, m configmap.Mapper) (fs.Fs, error) {
 		return nil, errors.New("unable to get drive_id and drive_type - if you are upgrading from older versions of rclone, please run `rclone config` and re-configure this backend")
 	}
 
-	root = parsePath(root)
-	oAuthClient, ts, err := oauthutil.NewClient(name, m, oauthConfig)
-	if err != nil {
-		return nil, errors.Wrap(err, "failed to configure OneDrive")
-	}
-
 	rootURL := graphAPIEndpoint + "/v1.0" + "/drives/" + opt.DriveID
 	oauthConfig.Endpoint = *oauthEndpoint
 	if opt.Is21Vianet {
 		rootURL = graphAPIEndpoint21V + "/v1.0" + "/me/drive"
 		oauthConfig.Endpoint = *oauthEndpointV21
+	}
+
+	root = parsePath(root)
+	oAuthClient, ts, err := oauthutil.NewClient(name, m, oauthConfig)
+	if err != nil {
+		return nil, errors.Wrap(err, "failed to configure OneDrive")
 	}
 
 	f := &Fs{
