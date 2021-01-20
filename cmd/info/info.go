@@ -19,13 +19,13 @@ import (
 	"time"
 
 	"github.com/pkg/errors"
-	"github.com/clive2000/rclone/cmd"
-	"github.com/clive2000/rclone/cmd/info/internal"
-	"github.com/clive2000/rclone/fs"
-	"github.com/clive2000/rclone/fs/config/flags"
-	"github.com/clive2000/rclone/fs/hash"
-	"github.com/clive2000/rclone/fs/object"
-	"github.com/clive2000/rclone/lib/random"
+	"github.com/rclone/rclone/cmd"
+	"github.com/rclone/rclone/cmd/info/internal"
+	"github.com/rclone/rclone/fs"
+	"github.com/rclone/rclone/fs/config/flags"
+	"github.com/rclone/rclone/fs/hash"
+	"github.com/rclone/rclone/fs/object"
+	"github.com/rclone/rclone/lib/random"
 	"github.com/spf13/cobra"
 )
 

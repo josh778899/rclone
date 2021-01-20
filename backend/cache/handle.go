@@ -13,8 +13,8 @@ import (
 	"time"
 
 	"github.com/pkg/errors"
-	"github.com/clive2000/rclone/fs"
-	"github.com/clive2000/rclone/fs/operations"
+	"github.com/rclone/rclone/fs"
+	"github.com/rclone/rclone/fs/operations"
 )
 
 var uploaderMap = make(map[string]*backgroundWriter)

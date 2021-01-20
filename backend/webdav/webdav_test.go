@@ -4,9 +4,9 @@ package webdav_test
 import (
 	"testing"
 
-	"github.com/clive2000/rclone/backend/webdav"
-	"github.com/clive2000/rclone/fstest"
-	"github.com/clive2000/rclone/fstest/fstests"
+	"github.com/rclone/rclone/backend/webdav"
+	"github.com/rclone/rclone/fstest"
+	"github.com/rclone/rclone/fstest/fstests"
 )
 
 // TestIntegration runs integration tests against the remote

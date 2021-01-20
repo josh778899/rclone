@@ -185,7 +185,7 @@ Make sure you have at least [Go](https://golang.org/) 1.11
 installed.  [Download go](https://golang.org/dl/) if necessary.  The
 latest release is recommended. Then
 
-    git clone https://github.com/clive2000/rclone.git
+    git clone https://github.com/rclone/rclone.git
     cd rclone
     go build
     ./rclone version
@@ -196,11 +196,11 @@ the rclone build will have the correct version information in it.
 
 You can also build the latest stable rclone with:
 
-    go get github.com/clive2000/rclone
+    go get github.com/rclone/rclone
 
 or the latest version (equivalent to the beta) with
 
-    go get github.com/clive2000/rclone@master
+    go get github.com/rclone/rclone@master
 
 These will build the binary in `$(go env GOPATH)/bin`
 (`~/go/bin/rclone` by default) after downloading the source to the go

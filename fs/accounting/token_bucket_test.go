@@ -4,7 +4,7 @@ import (
 	"context"
 	"testing"
 
-	"github.com/clive2000/rclone/fs/rc"
+	"github.com/rclone/rclone/fs/rc"
 	"github.com/stretchr/testify/assert"
 	"github.com/stretchr/testify/require"
 	"golang.org/x/time/rate"

@@ -17,16 +17,16 @@ import (
 	"unicode/utf8"
 
 	"github.com/pkg/errors"
-	"github.com/clive2000/rclone/fs"
-	"github.com/clive2000/rclone/fs/accounting"
-	"github.com/clive2000/rclone/fs/config"
-	"github.com/clive2000/rclone/fs/config/configmap"
-	"github.com/clive2000/rclone/fs/config/configstruct"
-	"github.com/clive2000/rclone/fs/fserrors"
-	"github.com/clive2000/rclone/fs/hash"
-	"github.com/clive2000/rclone/lib/encoder"
-	"github.com/clive2000/rclone/lib/file"
-	"github.com/clive2000/rclone/lib/readers"
+	"github.com/rclone/rclone/fs"
+	"github.com/rclone/rclone/fs/accounting"
+	"github.com/rclone/rclone/fs/config"
+	"github.com/rclone/rclone/fs/config/configmap"
+	"github.com/rclone/rclone/fs/config/configstruct"
+	"github.com/rclone/rclone/fs/fserrors"
+	"github.com/rclone/rclone/fs/hash"
+	"github.com/rclone/rclone/lib/encoder"
+	"github.com/rclone/rclone/lib/file"
+	"github.com/rclone/rclone/lib/readers"
 )
 
 // Constants
@@ -88,7 +88,7 @@ are being uploaded and aborts with a message which starts "can't copy
 - source file is being updated" if the file changes during upload.
 
 However on some file systems this modification time check may fail (eg
-[Glusterfs #2206](https://github.com/clive2000/rclone/issues/2206)) so this
+[Glusterfs #2206](https://github.com/rclone/rclone/issues/2206)) so this
 check can be disabled with this flag.
 
 If this flag is set, rclone will use its best efforts to transfer a

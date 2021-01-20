@@ -6,9 +6,9 @@ import (
 	"path/filepath"
 	"testing"
 
-	_ "github.com/clive2000/rclone/backend/local"
-	"github.com/clive2000/rclone/fstest"
-	"github.com/clive2000/rclone/fstest/fstests"
+	_ "github.com/rclone/rclone/backend/local"
+	"github.com/rclone/rclone/fstest"
+	"github.com/rclone/rclone/fstest/fstests"
 	"github.com/stretchr/testify/require"
 )
 

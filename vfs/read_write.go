@@ -7,9 +7,9 @@ import (
 	"sync"
 
 	"github.com/pkg/errors"
-	"github.com/clive2000/rclone/fs"
-	"github.com/clive2000/rclone/fs/log"
-	"github.com/clive2000/rclone/vfs/vfscache"
+	"github.com/rclone/rclone/fs"
+	"github.com/rclone/rclone/fs/log"
+	"github.com/rclone/rclone/vfs/vfscache"
 )
 
 // RWFileHandle is a handle that can be open for read and write.

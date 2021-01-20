@@ -4,8 +4,8 @@ package fichier
 import (
 	"testing"
 
-	"github.com/clive2000/rclone/fs"
-	"github.com/clive2000/rclone/fstest/fstests"
+	"github.com/rclone/rclone/fs"
+	"github.com/rclone/rclone/fstest/fstests"
 )
 
 // TestIntegration runs integration tests against the remote

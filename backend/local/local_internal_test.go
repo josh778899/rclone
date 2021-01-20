@@ -9,12 +9,12 @@ import (
 	"testing"
 	"time"
 
-	"github.com/clive2000/rclone/fs"
-	"github.com/clive2000/rclone/fs/config/configmap"
-	"github.com/clive2000/rclone/fs/hash"
-	"github.com/clive2000/rclone/fstest"
-	"github.com/clive2000/rclone/lib/file"
-	"github.com/clive2000/rclone/lib/readers"
+	"github.com/rclone/rclone/fs"
+	"github.com/rclone/rclone/fs/config/configmap"
+	"github.com/rclone/rclone/fs/hash"
+	"github.com/rclone/rclone/fstest"
+	"github.com/rclone/rclone/lib/file"
+	"github.com/rclone/rclone/lib/readers"
 	"github.com/stretchr/testify/assert"
 	"github.com/stretchr/testify/require"
 )

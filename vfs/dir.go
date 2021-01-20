@@ -11,13 +11,13 @@ import (
 	"time"
 
 	"github.com/pkg/errors"
-	"github.com/clive2000/rclone/fs"
-	"github.com/clive2000/rclone/fs/dirtree"
-	"github.com/clive2000/rclone/fs/list"
-	"github.com/clive2000/rclone/fs/log"
-	"github.com/clive2000/rclone/fs/operations"
-	"github.com/clive2000/rclone/fs/walk"
-	"github.com/clive2000/rclone/vfs/vfscommon"
+	"github.com/rclone/rclone/fs"
+	"github.com/rclone/rclone/fs/dirtree"
+	"github.com/rclone/rclone/fs/list"
+	"github.com/rclone/rclone/fs/log"
+	"github.com/rclone/rclone/fs/operations"
+	"github.com/rclone/rclone/fs/walk"
+	"github.com/rclone/rclone/vfs/vfscommon"
 )
 
 // Dir represents a directory entry

@@ -33,11 +33,11 @@ import (
 	"sync/atomic"
 	"time"
 
-	"github.com/clive2000/rclone/fs"
-	"github.com/clive2000/rclone/fs/cache"
-	"github.com/clive2000/rclone/fs/log"
-	"github.com/clive2000/rclone/vfs/vfscache"
-	"github.com/clive2000/rclone/vfs/vfscommon"
+	"github.com/rclone/rclone/fs"
+	"github.com/rclone/rclone/fs/cache"
+	"github.com/rclone/rclone/fs/log"
+	"github.com/rclone/rclone/vfs/vfscache"
+	"github.com/rclone/rclone/vfs/vfscommon"
 )
 
 // Node represents either a directory (*Dir) or a file (*File)

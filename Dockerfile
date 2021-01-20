@@ -1,7 +1,7 @@
 FROM golang AS builder
 
-COPY . /go/src/github.com/clive2000/rclone/
-WORKDIR /go/src/github.com/clive2000/rclone/
+COPY . /go/src/github.com/rclone/rclone/
+WORKDIR /go/src/github.com/rclone/rclone/
 
 RUN \
   CGO_ENABLED=0 \
@@ -14,7 +14,7 @@ FROM alpine:latest
 RUN apk --no-cache add ca-certificates fuse tzdata && \
   echo "user_allow_other" >> /etc/fuse.conf
 
-COPY --from=builder /go/src/github.com/clive2000/rclone/rclone /usr/local/bin/
+COPY --from=builder /go/src/github.com/rclone/rclone/rclone /usr/local/bin/
 
 ENTRYPOINT [ "rclone" ]
 

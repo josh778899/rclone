@@ -13,8 +13,8 @@ import (
 	"testing/iotest"
 	"time"
 
-	"github.com/clive2000/rclone/lib/israce"
-	"github.com/clive2000/rclone/lib/readers"
+	"github.com/rclone/rclone/lib/israce"
+	"github.com/rclone/rclone/lib/readers"
 	"github.com/stretchr/testify/assert"
 	"github.com/stretchr/testify/require"
 )

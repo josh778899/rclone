@@ -4,8 +4,8 @@ package sugarsync_test
 import (
 	"testing"
 
-	"github.com/clive2000/rclone/backend/sugarsync"
-	"github.com/clive2000/rclone/fstest/fstests"
+	"github.com/rclone/rclone/backend/sugarsync"
+	"github.com/rclone/rclone/fstest/fstests"
 )
 
 // TestIntegration runs integration tests against the remote

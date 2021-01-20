@@ -18,7 +18,7 @@ import (
 
 	"github.com/anacrolix/dms/soap"
 	"github.com/anacrolix/dms/upnp"
-	"github.com/clive2000/rclone/fs"
+	"github.com/rclone/rclone/fs"
 )
 
 // Return a default "friendly name" for the server.

@@ -6,8 +6,8 @@ import (
 	"sync"
 
 	"github.com/pkg/errors"
-	"github.com/clive2000/rclone/fs"
-	"github.com/clive2000/rclone/fs/fserrors"
+	"github.com/rclone/rclone/fs"
+	"github.com/rclone/rclone/fs/fserrors"
 )
 
 // ReOpen is a wrapper for an object reader which reopens the stream on error

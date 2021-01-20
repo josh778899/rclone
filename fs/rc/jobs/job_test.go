@@ -7,9 +7,9 @@ import (
 	"time"
 
 	"github.com/pkg/errors"
-	"github.com/clive2000/rclone/fs/rc"
-	"github.com/clive2000/rclone/fs/rc/rcflags"
-	"github.com/clive2000/rclone/fstest/testy"
+	"github.com/rclone/rclone/fs/rc"
+	"github.com/rclone/rclone/fs/rc/rcflags"
+	"github.com/rclone/rclone/fstest/testy"
 	"github.com/stretchr/testify/assert"
 	"github.com/stretchr/testify/require"
 )

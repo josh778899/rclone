@@ -12,7 +12,7 @@ import (
 
 	"github.com/pkg/errors"
 
-	"github.com/clive2000/rclone/fs"
+	"github.com/rclone/rclone/fs"
 )
 
 // Params is the input and output type for the Func

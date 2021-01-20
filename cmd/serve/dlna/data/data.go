@@ -8,7 +8,7 @@ import (
 	"text/template"
 
 	"github.com/pkg/errors"
-	"github.com/clive2000/rclone/fs"
+	"github.com/rclone/rclone/fs"
 )
 
 // GetTemplate returns the rootDesc XML template

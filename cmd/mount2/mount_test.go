@@ -5,7 +5,7 @@ package mount2
 import (
 	"testing"
 
-	"github.com/clive2000/rclone/vfs/vfstest"
+	"github.com/rclone/rclone/vfs/vfstest"
 )
 
 func TestMount(t *testing.T) {

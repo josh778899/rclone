@@ -4,11 +4,11 @@ import (
 	"errors"
 	"strings"
 
-	"github.com/clive2000/rclone/fs"
-	"github.com/clive2000/rclone/fs/cache"
-	"github.com/clive2000/rclone/fs/config/configmap"
-	"github.com/clive2000/rclone/fs/config/configstruct"
-	"github.com/clive2000/rclone/fs/fspath"
+	"github.com/rclone/rclone/fs"
+	"github.com/rclone/rclone/fs/cache"
+	"github.com/rclone/rclone/fs/config/configmap"
+	"github.com/rclone/rclone/fs/config/configstruct"
+	"github.com/rclone/rclone/fs/fspath"
 )
 
 // Register with Fs

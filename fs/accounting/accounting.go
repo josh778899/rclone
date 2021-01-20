@@ -9,13 +9,13 @@ import (
 	"time"
 	"unicode/utf8"
 
-	"github.com/clive2000/rclone/fs/rc"
+	"github.com/rclone/rclone/fs/rc"
 	"golang.org/x/time/rate"
 
 	"github.com/pkg/errors"
-	"github.com/clive2000/rclone/fs"
-	"github.com/clive2000/rclone/fs/asyncreader"
-	"github.com/clive2000/rclone/fs/fserrors"
+	"github.com/rclone/rclone/fs"
+	"github.com/rclone/rclone/fs/asyncreader"
+	"github.com/rclone/rclone/fs/fserrors"
 )
 
 // ErrorMaxTransferLimitReached defines error when transfer limit is reached.

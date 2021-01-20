@@ -9,9 +9,9 @@ import (
 	"time"
 
 	"github.com/pkg/errors"
-	"github.com/clive2000/rclone/fs"
-	"github.com/clive2000/rclone/fstest"
-	"github.com/clive2000/rclone/lib/random"
+	"github.com/rclone/rclone/fs"
+	"github.com/rclone/rclone/fstest"
+	"github.com/rclone/rclone/lib/random"
 	"github.com/stretchr/testify/assert"
 	"github.com/stretchr/testify/require"
 )

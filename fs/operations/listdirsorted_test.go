@@ -4,10 +4,10 @@ import (
 	"context"
 	"testing"
 
-	"github.com/clive2000/rclone/fs"
-	"github.com/clive2000/rclone/fs/filter"
-	"github.com/clive2000/rclone/fs/list"
-	"github.com/clive2000/rclone/fstest"
+	"github.com/rclone/rclone/fs"
+	"github.com/rclone/rclone/fs/filter"
+	"github.com/rclone/rclone/fs/list"
+	"github.com/rclone/rclone/fstest"
 	"github.com/stretchr/testify/assert"
 	"github.com/stretchr/testify/require"
 )

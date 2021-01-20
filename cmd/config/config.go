@@ -9,11 +9,11 @@ import (
 	"strings"
 
 	"github.com/pkg/errors"
-	"github.com/clive2000/rclone/cmd"
-	"github.com/clive2000/rclone/fs"
-	"github.com/clive2000/rclone/fs/config"
-	"github.com/clive2000/rclone/fs/config/flags"
-	"github.com/clive2000/rclone/fs/rc"
+	"github.com/rclone/rclone/cmd"
+	"github.com/rclone/rclone/fs"
+	"github.com/rclone/rclone/fs/config"
+	"github.com/rclone/rclone/fs/config/flags"
+	"github.com/rclone/rclone/fs/rc"
 	"github.com/spf13/cobra"
 	"github.com/spf13/pflag"
 )

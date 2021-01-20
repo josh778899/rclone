@@ -4,10 +4,10 @@ import (
 	"context"
 	"os"
 
-	"github.com/clive2000/rclone/backend/dropbox"
-	"github.com/clive2000/rclone/cmd"
-	"github.com/clive2000/rclone/fs"
-	"github.com/clive2000/rclone/fs/operations"
+	"github.com/rclone/rclone/backend/dropbox"
+	"github.com/rclone/rclone/cmd"
+	"github.com/rclone/rclone/fs"
+	"github.com/rclone/rclone/fs/operations"
 	"github.com/spf13/cobra"
 )
 

@@ -5,8 +5,8 @@ import (
 	"os"
 	"testing"
 
-	"github.com/clive2000/rclone/fstest"
-	"github.com/clive2000/rclone/vfs/vfscommon"
+	"github.com/rclone/rclone/fstest"
+	"github.com/rclone/rclone/vfs/vfscommon"
 	"github.com/stretchr/testify/assert"
 	"github.com/stretchr/testify/require"
 )

@@ -13,7 +13,7 @@ import (
 	_ "net/http/pprof" // install the pprof http handlers
 	"time"
 
-	"github.com/clive2000/rclone/cmd/serve/httplib"
+	"github.com/rclone/rclone/cmd/serve/httplib"
 )
 
 // Options contains options for the remote control server

@@ -22,20 +22,20 @@ import (
 	"github.com/Azure/azure-pipeline-go/pipeline"
 	"github.com/Azure/azure-storage-blob-go/azblob"
 	"github.com/pkg/errors"
-	"github.com/clive2000/rclone/fs"
-	"github.com/clive2000/rclone/fs/accounting"
-	"github.com/clive2000/rclone/fs/config"
-	"github.com/clive2000/rclone/fs/config/configmap"
-	"github.com/clive2000/rclone/fs/config/configstruct"
-	"github.com/clive2000/rclone/fs/fserrors"
-	"github.com/clive2000/rclone/fs/fshttp"
-	"github.com/clive2000/rclone/fs/hash"
-	"github.com/clive2000/rclone/fs/walk"
-	"github.com/clive2000/rclone/lib/bucket"
-	"github.com/clive2000/rclone/lib/encoder"
-	"github.com/clive2000/rclone/lib/pacer"
-	"github.com/clive2000/rclone/lib/pool"
-	"github.com/clive2000/rclone/lib/readers"
+	"github.com/rclone/rclone/fs"
+	"github.com/rclone/rclone/fs/accounting"
+	"github.com/rclone/rclone/fs/config"
+	"github.com/rclone/rclone/fs/config/configmap"
+	"github.com/rclone/rclone/fs/config/configstruct"
+	"github.com/rclone/rclone/fs/fserrors"
+	"github.com/rclone/rclone/fs/fshttp"
+	"github.com/rclone/rclone/fs/hash"
+	"github.com/rclone/rclone/fs/walk"
+	"github.com/rclone/rclone/lib/bucket"
+	"github.com/rclone/rclone/lib/encoder"
+	"github.com/rclone/rclone/lib/pacer"
+	"github.com/rclone/rclone/lib/pool"
+	"github.com/rclone/rclone/lib/readers"
 	"golang.org/x/sync/errgroup"
 )
 
@@ -1476,7 +1476,7 @@ func (o *Object) Update(ctx context.Context, in io.Reader, src fs.ObjectInfo, op
 	// FIXME Until https://github.com/Azure/azure-storage-blob-go/pull/75
 	// is merged the SDK can't upload a single blob of exactly the chunk
 	// size, so upload with a multipart upload to work around.
-	// See: https://github.com/clive2000/rclone/issues/2653
+	// See: https://github.com/rclone/rclone/issues/2653
 	multipartUpload := size < 0 || size >= int64(o.fs.opt.UploadCutoff)
 	if size == int64(o.fs.opt.ChunkSize) {
 		multipartUpload = true

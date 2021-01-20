@@ -12,14 +12,14 @@ import (
 	"time"
 
 	"github.com/pkg/errors"
-	"github.com/clive2000/rclone/backend/union/policy"
-	"github.com/clive2000/rclone/backend/union/upstream"
-	"github.com/clive2000/rclone/fs"
-	"github.com/clive2000/rclone/fs/config/configmap"
-	"github.com/clive2000/rclone/fs/config/configstruct"
-	"github.com/clive2000/rclone/fs/hash"
-	"github.com/clive2000/rclone/fs/operations"
-	"github.com/clive2000/rclone/fs/walk"
+	"github.com/rclone/rclone/backend/union/policy"
+	"github.com/rclone/rclone/backend/union/upstream"
+	"github.com/rclone/rclone/fs"
+	"github.com/rclone/rclone/fs/config/configmap"
+	"github.com/rclone/rclone/fs/config/configstruct"
+	"github.com/rclone/rclone/fs/hash"
+	"github.com/rclone/rclone/fs/operations"
+	"github.com/rclone/rclone/fs/walk"
 )
 
 // Register with Fs

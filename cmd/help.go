@@ -7,12 +7,12 @@ import (
 	"regexp"
 	"strings"
 
-	"github.com/clive2000/rclone/fs"
-	"github.com/clive2000/rclone/fs/config/configflags"
-	"github.com/clive2000/rclone/fs/filter/filterflags"
-	"github.com/clive2000/rclone/fs/log/logflags"
-	"github.com/clive2000/rclone/fs/rc/rcflags"
-	"github.com/clive2000/rclone/lib/atexit"
+	"github.com/rclone/rclone/fs"
+	"github.com/rclone/rclone/fs/config/configflags"
+	"github.com/rclone/rclone/fs/filter/filterflags"
+	"github.com/rclone/rclone/fs/log/logflags"
+	"github.com/rclone/rclone/fs/rc/rcflags"
+	"github.com/rclone/rclone/lib/atexit"
 	"github.com/spf13/cobra"
 	"github.com/spf13/pflag"
 )

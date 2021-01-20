@@ -15,9 +15,9 @@ import (
 	"github.com/stretchr/testify/assert"
 	"github.com/stretchr/testify/require"
 
-	_ "github.com/clive2000/rclone/backend/local"
-	"github.com/clive2000/rclone/fs/accounting"
-	"github.com/clive2000/rclone/fs/rc"
+	_ "github.com/rclone/rclone/backend/local"
+	"github.com/rclone/rclone/fs/accounting"
+	"github.com/rclone/rclone/fs/rc"
 )
 
 const (

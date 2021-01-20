@@ -158,6 +158,6 @@ WebDAV or S3, that work out of the box.)
 Links
 
   * {{< icon "fa fa-home" >}} [Home page](https://rclone.org/)
-  * {{< icon "fab fa-github" >}} [GitHub project page for source and bug tracker](https://github.com/clive2000/rclone)
+  * {{< icon "fab fa-github" >}} [GitHub project page for source and bug tracker](https://github.com/rclone/rclone)
   * {{< icon "fa fa-comments" >}} [Rclone Forum](https://forum.rclone.org)
   * {{< icon "fas fa-cloud-download-alt" >}}[Downloads](/downloads/)

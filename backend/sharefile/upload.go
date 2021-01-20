@@ -16,11 +16,11 @@ import (
 	"sync"
 
 	"github.com/pkg/errors"
-	"github.com/clive2000/rclone/backend/sharefile/api"
-	"github.com/clive2000/rclone/fs"
-	"github.com/clive2000/rclone/fs/accounting"
-	"github.com/clive2000/rclone/lib/readers"
-	"github.com/clive2000/rclone/lib/rest"
+	"github.com/rclone/rclone/backend/sharefile/api"
+	"github.com/rclone/rclone/fs"
+	"github.com/rclone/rclone/fs/accounting"
+	"github.com/rclone/rclone/lib/readers"
+	"github.com/rclone/rclone/lib/rest"
 )
 
 // largeUpload is used to control the upload of large files which need chunking

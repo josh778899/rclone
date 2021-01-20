@@ -5,7 +5,7 @@ import (
 	"sync"
 	"time"
 
-	"github.com/clive2000/rclone/lib/errors"
+	"github.com/rclone/rclone/lib/errors"
 )
 
 // State represents the public Pacer state that will be passed to the

@@ -11,14 +11,14 @@ import (
 	"time"
 
 	"github.com/pkg/errors"
-	_ "github.com/clive2000/rclone/backend/all" // import all backends
-	"github.com/clive2000/rclone/fs"
-	"github.com/clive2000/rclone/fs/accounting"
-	"github.com/clive2000/rclone/fs/filter"
-	"github.com/clive2000/rclone/fs/fserrors"
-	"github.com/clive2000/rclone/fs/hash"
-	"github.com/clive2000/rclone/fs/operations"
-	"github.com/clive2000/rclone/fstest"
+	_ "github.com/rclone/rclone/backend/all" // import all backends
+	"github.com/rclone/rclone/fs"
+	"github.com/rclone/rclone/fs/accounting"
+	"github.com/rclone/rclone/fs/filter"
+	"github.com/rclone/rclone/fs/fserrors"
+	"github.com/rclone/rclone/fs/hash"
+	"github.com/rclone/rclone/fs/operations"
+	"github.com/rclone/rclone/fstest"
 	"github.com/stretchr/testify/assert"
 	"github.com/stretchr/testify/require"
 	"golang.org/x/text/unicode/norm"

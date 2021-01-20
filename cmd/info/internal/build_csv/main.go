@@ -11,7 +11,7 @@ import (
 	"sort"
 	"strconv"
 
-	"github.com/clive2000/rclone/cmd/info/internal"
+	"github.com/rclone/rclone/cmd/info/internal"
 )
 
 func main() {

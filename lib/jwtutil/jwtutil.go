@@ -13,9 +13,9 @@ import (
 	"time"
 
 	"github.com/pkg/errors"
-	"github.com/clive2000/rclone/fs"
-	"github.com/clive2000/rclone/fs/config/configmap"
-	"github.com/clive2000/rclone/lib/oauthutil"
+	"github.com/rclone/rclone/fs"
+	"github.com/rclone/rclone/fs/config/configmap"
+	"github.com/rclone/rclone/lib/oauthutil"
 
 	"golang.org/x/oauth2"
 	"golang.org/x/oauth2/jws"

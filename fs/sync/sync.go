@@ -11,13 +11,13 @@ import (
 	"time"
 
 	"github.com/pkg/errors"
-	"github.com/clive2000/rclone/fs"
-	"github.com/clive2000/rclone/fs/accounting"
-	"github.com/clive2000/rclone/fs/filter"
-	"github.com/clive2000/rclone/fs/fserrors"
-	"github.com/clive2000/rclone/fs/hash"
-	"github.com/clive2000/rclone/fs/march"
-	"github.com/clive2000/rclone/fs/operations"
+	"github.com/rclone/rclone/fs"
+	"github.com/rclone/rclone/fs/accounting"
+	"github.com/rclone/rclone/fs/filter"
+	"github.com/rclone/rclone/fs/fserrors"
+	"github.com/rclone/rclone/fs/hash"
+	"github.com/rclone/rclone/fs/march"
+	"github.com/rclone/rclone/fs/operations"
 )
 
 type syncCopyMove struct {

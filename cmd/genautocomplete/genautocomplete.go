@@ -1,7 +1,7 @@
 package genautocomplete
 
 import (
-	"github.com/clive2000/rclone/cmd"
+	"github.com/rclone/rclone/cmd"
 	"github.com/spf13/cobra"
 )
 

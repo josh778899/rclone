@@ -16,12 +16,12 @@ import (
 	"sync"
 
 	"github.com/pkg/errors"
-	"github.com/clive2000/rclone/backend/b2/api"
-	"github.com/clive2000/rclone/fs"
-	"github.com/clive2000/rclone/fs/accounting"
-	"github.com/clive2000/rclone/fs/hash"
-	"github.com/clive2000/rclone/lib/atexit"
-	"github.com/clive2000/rclone/lib/rest"
+	"github.com/rclone/rclone/backend/b2/api"
+	"github.com/rclone/rclone/fs"
+	"github.com/rclone/rclone/fs/accounting"
+	"github.com/rclone/rclone/fs/hash"
+	"github.com/rclone/rclone/lib/atexit"
+	"github.com/rclone/rclone/lib/rest"
 	"golang.org/x/sync/errgroup"
 )
 

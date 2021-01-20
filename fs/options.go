@@ -9,7 +9,7 @@ import (
 	"strings"
 
 	"github.com/pkg/errors"
-	"github.com/clive2000/rclone/fs/hash"
+	"github.com/rclone/rclone/fs/hash"
 )
 
 // OpenOption is an interface describing options for Open

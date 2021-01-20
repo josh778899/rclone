@@ -10,10 +10,10 @@ import (
 	"bazil.org/fuse"
 	fusefs "bazil.org/fuse/fs"
 	"github.com/pkg/errors"
-	"github.com/clive2000/rclone/cmd/mountlib"
-	"github.com/clive2000/rclone/fs"
-	"github.com/clive2000/rclone/fs/log"
-	"github.com/clive2000/rclone/vfs"
+	"github.com/rclone/rclone/cmd/mountlib"
+	"github.com/rclone/rclone/fs"
+	"github.com/rclone/rclone/fs/log"
+	"github.com/rclone/rclone/vfs"
 )
 
 // Dir represents a directory entry

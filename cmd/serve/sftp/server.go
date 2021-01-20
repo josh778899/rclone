@@ -18,13 +18,13 @@ import (
 	"strings"
 
 	"github.com/pkg/errors"
-	"github.com/clive2000/rclone/cmd/serve/proxy"
-	"github.com/clive2000/rclone/cmd/serve/proxy/proxyflags"
-	"github.com/clive2000/rclone/fs"
-	"github.com/clive2000/rclone/fs/config"
-	"github.com/clive2000/rclone/lib/env"
-	"github.com/clive2000/rclone/vfs"
-	"github.com/clive2000/rclone/vfs/vfsflags"
+	"github.com/rclone/rclone/cmd/serve/proxy"
+	"github.com/rclone/rclone/cmd/serve/proxy/proxyflags"
+	"github.com/rclone/rclone/fs"
+	"github.com/rclone/rclone/fs/config"
+	"github.com/rclone/rclone/lib/env"
+	"github.com/rclone/rclone/vfs"
+	"github.com/rclone/rclone/vfs/vfsflags"
 	"golang.org/x/crypto/ssh"
 )
 

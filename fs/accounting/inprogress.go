@@ -3,7 +3,7 @@ package accounting
 import (
 	"sync"
 
-	"github.com/clive2000/rclone/fs"
+	"github.com/rclone/rclone/fs"
 )
 
 // inProgress holds a synchronized map of in progress transfers

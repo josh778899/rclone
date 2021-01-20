@@ -10,10 +10,10 @@ import (
 	"time"
 
 	"github.com/pkg/errors"
-	"github.com/clive2000/rclone/fs"
-	"github.com/clive2000/rclone/fs/dirtree"
-	"github.com/clive2000/rclone/fs/filter"
-	"github.com/clive2000/rclone/fs/list"
+	"github.com/rclone/rclone/fs"
+	"github.com/rclone/rclone/fs/dirtree"
+	"github.com/rclone/rclone/fs/filter"
+	"github.com/rclone/rclone/fs/list"
 )
 
 // ErrorSkipDir is used as a return value from Walk to indicate that the

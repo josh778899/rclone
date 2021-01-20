@@ -6,8 +6,8 @@ import (
 	"os"
 	"path/filepath"
 
-	"github.com/clive2000/rclone/fs"
-	"github.com/clive2000/rclone/fs/rc"
+	"github.com/rclone/rclone/fs"
+	"github.com/rclone/rclone/fs/rc"
 )
 
 func init() {
@@ -75,7 +75,7 @@ func init() {
 
 This takes the following parameters
 
-- url: http url of the github repo where the plugin is hosted (http://github.com/clive2000/rclone-webui-react)
+- url: http url of the github repo where the plugin is hosted (http://github.com/rclone/rclone-webui-react)
 
 Eg
 

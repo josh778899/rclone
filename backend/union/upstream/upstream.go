@@ -12,8 +12,8 @@ import (
 	"time"
 
 	"github.com/pkg/errors"
-	"github.com/clive2000/rclone/fs"
-	"github.com/clive2000/rclone/fs/cache"
+	"github.com/rclone/rclone/fs"
+	"github.com/rclone/rclone/fs/cache"
 )
 
 var (

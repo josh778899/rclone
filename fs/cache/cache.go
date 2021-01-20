@@ -5,8 +5,8 @@ import (
 	"runtime"
 	"sync"
 
-	"github.com/clive2000/rclone/fs"
-	"github.com/clive2000/rclone/lib/cache"
+	"github.com/rclone/rclone/fs"
+	"github.com/rclone/rclone/lib/cache"
 )
 
 var (

@@ -8,7 +8,7 @@ import (
 	"regexp"
 	"strings"
 
-	"github.com/clive2000/rclone/fs/driveletter"
+	"github.com/rclone/rclone/fs/driveletter"
 )
 
 const (

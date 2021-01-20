@@ -14,8 +14,8 @@ import (
 	"time"
 
 	"github.com/pkg/errors"
-	"github.com/clive2000/rclone/fs"
-	"github.com/clive2000/rclone/fs/fshttp"
+	"github.com/rclone/rclone/fs"
+	"github.com/rclone/rclone/fs/fshttp"
 	"golang.org/x/net/publicsuffix"
 )
 

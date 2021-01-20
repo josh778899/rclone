@@ -7,7 +7,7 @@ description: "Rclone Changelog"
 
 ## v1.53.1 - 2020-09-13
 
-[See commits](https://github.com/clive2000/rclone/compare/v1.53.0...v1.53.1)
+[See commits](https://github.com/rclone/rclone/compare/v1.53.0...v1.53.1)
 
 * Bug Fixes
     * accounting: Remove new line from end of --stats-one-line display (Nick Craig-Wood)
@@ -37,7 +37,7 @@ description: "Rclone Changelog"
 
 ## v1.53.0 - 2020-09-02
 
-[See commits](https://github.com/clive2000/rclone/compare/v1.52.0...v1.53.0)
+[See commits](https://github.com/rclone/rclone/compare/v1.52.0...v1.53.0)
 
 * New Features
     * The [VFS layer](/commands/rclone_mount/#vfs-virtual-file-system) was heavily reworked for this release - see below for more details
@@ -214,7 +214,7 @@ description: "Rclone Changelog"
 
 ## v1.52.3 - 2020-08-07
 
-[See commits](https://github.com/clive2000/rclone/compare/v1.52.2...v1.52.3)
+[See commits](https://github.com/rclone/rclone/compare/v1.52.2...v1.52.3)
 
 * Bug Fixes
     * docs
@@ -244,7 +244,7 @@ description: "Rclone Changelog"
 
 ## v1.52.2 - 2020-06-24
 
-[See commits](https://github.com/clive2000/rclone/compare/v1.52.1...v1.52.2)
+[See commits](https://github.com/rclone/rclone/compare/v1.52.1...v1.52.2)
 
 * Bug Fixes
     * build
@@ -271,7 +271,7 @@ description: "Rclone Changelog"
 
 ## v1.52.1 - 2020-06-10
 
-[See commits](https://github.com/clive2000/rclone/compare/v1.52.0...v1.52.1)
+[See commits](https://github.com/rclone/rclone/compare/v1.52.0...v1.52.1)
 
 * Bug Fixes
     * lib/file: Fix SetSparse on Windows 7 which fixes downloads of files > 250MB (Nick Craig-Wood)
@@ -307,7 +307,7 @@ description: "Rclone Changelog"
 Special thanks to Martin Michlmayr for proof reading and correcting
 all the docs and Edward Barker for helping re-write the front page.
 
-[See commits](https://github.com/clive2000/rclone/compare/v1.51.0...v1.52.0)
+[See commits](https://github.com/rclone/rclone/compare/v1.51.0...v1.52.0)
 
 * New backends
     * [Tardigrade](/tardigrade/) backend for use with storj.io (Caleb Case)
@@ -729,7 +729,7 @@ all the docs and Edward Barker for helping re-write the front page.
         * Convert python scripts to python3 (Nick Craig-Wood)
         * Swap Azure/go-ansiterm for mattn/go-colorable (Nick Craig-Wood)
         * Dockerfile fixes (Matei David)
-        * Add [plugin support](https://github.com/clive2000/rclone/blob/master/CONTRIBUTING.md#writing-a-plugin) for backends and commands (Richard Patel)
+        * Add [plugin support](https://github.com/rclone/rclone/blob/master/CONTRIBUTING.md#writing-a-plugin) for backends and commands (Richard Patel)
     * config
         * Use alternating Red/Green in config to make more obvious (Nick Craig-Wood)
     * contrib

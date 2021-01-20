@@ -29,12 +29,12 @@ You'll need a Go environment set up with GOPATH set.  See [the Go
 getting started docs](https://golang.org/doc/install) for more info.
 
 First in your web browser press the fork button on [rclone's GitHub
-page](https://github.com/clive2000/rclone).
+page](https://github.com/rclone/rclone).
 
 Now in your terminal
 
-    go get -u github.com/clive2000/rclone
-    cd $GOPATH/src/github.com/clive2000/rclone
+    go get -u github.com/rclone/rclone
+    cd $GOPATH/src/github.com/rclone/rclone
     git remote rename origin upstream
     git remote add origin git@github.com:YOURUSER/rclone.git
 
@@ -91,7 +91,7 @@ git push --force # Push the squashed commit to your GitHub repo.
 
 ## CI for your fork ##
 
-rclone currently uses [GitHub Actions](https://github.com/clive2000/rclone/actions) to build and test the project, which should be automatically available for your fork too from the `Actions` tab in your repository.
+rclone currently uses [GitHub Actions](https://github.com/rclone/rclone/actions) to build and test the project, which should be automatically available for your fork too from the `Actions` tab in your repository.
 
 ## Testing ##
 
@@ -130,7 +130,7 @@ If you want to use the integration test framework to run these tests
 all together with an HTML report and test retries then from the
 project root:
 
-    go install github.com/clive2000/rclone/fstest/test_all
+    go install github.com/rclone/rclone/fstest/test_all
     test_all -backend drive
 
 If you want to run all the integration tests against all the remotes,
@@ -410,6 +410,6 @@ Check `rclone --version` and make sure that the plugin's rclone dependency and h
 
 Then, run `go build -buildmode=plugin -o PLUGIN_NAME.so .` to build the plugin.
 
-[Go reference](https://godoc.org/github.com/clive2000/rclone/lib/plugin)
+[Go reference](https://godoc.org/github.com/rclone/rclone/lib/plugin)
 
 [Minimal example](https://gist.github.com/terorie/21b517ee347828e899e1913efc1d684f)

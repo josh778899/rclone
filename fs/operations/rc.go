@@ -11,8 +11,8 @@ import (
 	"time"
 
 	"github.com/pkg/errors"
-	"github.com/clive2000/rclone/fs"
-	"github.com/clive2000/rclone/fs/rc"
+	"github.com/rclone/rclone/fs"
+	"github.com/rclone/rclone/fs/rc"
 )
 
 func init() {

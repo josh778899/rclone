@@ -11,12 +11,12 @@ import (
 	"strings"
 	"testing"
 
-	"github.com/clive2000/rclone/fs"
-	"github.com/clive2000/rclone/fs/hash"
-	"github.com/clive2000/rclone/fs/operations"
-	"github.com/clive2000/rclone/fstest"
-	"github.com/clive2000/rclone/fstest/fstests"
-	"github.com/clive2000/rclone/lib/random"
+	"github.com/rclone/rclone/fs"
+	"github.com/rclone/rclone/fs/hash"
+	"github.com/rclone/rclone/fs/operations"
+	"github.com/rclone/rclone/fstest"
+	"github.com/rclone/rclone/fstest/fstests"
+	"github.com/rclone/rclone/lib/random"
 	"github.com/stretchr/testify/assert"
 	"github.com/stretchr/testify/require"
 )

@@ -7,8 +7,8 @@ import (
 	"sync"
 	"time"
 
-	"github.com/clive2000/rclone/fs"
-	"github.com/clive2000/rclone/fs/operations"
+	"github.com/rclone/rclone/fs"
+	"github.com/rclone/rclone/fs/operations"
 )
 
 // WriteFileHandle is an open for write handle on a File

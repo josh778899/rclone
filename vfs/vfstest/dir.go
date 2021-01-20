@@ -5,7 +5,7 @@ import (
 	"testing"
 	"time"
 
-	"github.com/clive2000/rclone/fs"
+	"github.com/rclone/rclone/fs"
 	"github.com/stretchr/testify/assert"
 	"github.com/stretchr/testify/require"
 )

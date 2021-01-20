@@ -5,7 +5,7 @@ import (
 	"fmt"
 	"strings"
 
-	"github.com/clive2000/rclone/fs/hash"
+	"github.com/rclone/rclone/fs/hash"
 )
 
 // Fingerprint produces a unique-ish string for an object.

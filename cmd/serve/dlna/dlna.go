@@ -16,12 +16,12 @@ import (
 	"github.com/anacrolix/dms/soap"
 	"github.com/anacrolix/dms/ssdp"
 	"github.com/anacrolix/dms/upnp"
-	"github.com/clive2000/rclone/cmd"
-	"github.com/clive2000/rclone/cmd/serve/dlna/data"
-	"github.com/clive2000/rclone/cmd/serve/dlna/dlnaflags"
-	"github.com/clive2000/rclone/fs"
-	"github.com/clive2000/rclone/vfs"
-	"github.com/clive2000/rclone/vfs/vfsflags"
+	"github.com/rclone/rclone/cmd"
+	"github.com/rclone/rclone/cmd/serve/dlna/data"
+	"github.com/rclone/rclone/cmd/serve/dlna/dlnaflags"
+	"github.com/rclone/rclone/fs"
+	"github.com/rclone/rclone/vfs"
+	"github.com/rclone/rclone/vfs/vfsflags"
 	"github.com/spf13/cobra"
 )
 

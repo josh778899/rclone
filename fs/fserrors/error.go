@@ -8,7 +8,7 @@ import (
 	"strings"
 	"time"
 
-	"github.com/clive2000/rclone/lib/errors"
+	"github.com/rclone/rclone/lib/errors"
 )
 
 // Retrier is an optional interface for error as to whether the

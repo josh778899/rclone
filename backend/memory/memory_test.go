@@ -4,7 +4,7 @@ package memory
 import (
 	"testing"
 
-	"github.com/clive2000/rclone/fstest/fstests"
+	"github.com/rclone/rclone/fstest/fstests"
 )
 
 // TestIntegration runs integration tests against the remote

@@ -1,9 +1,9 @@
 package httpflags
 
 import (
-	"github.com/clive2000/rclone/cmd/serve/httplib"
-	"github.com/clive2000/rclone/fs/config/flags"
-	"github.com/clive2000/rclone/fs/rc"
+	"github.com/rclone/rclone/cmd/serve/httplib"
+	"github.com/rclone/rclone/fs/config/flags"
+	"github.com/rclone/rclone/fs/rc"
 	"github.com/spf13/pflag"
 )
 

@@ -7,7 +7,7 @@ import (
 	"strings"
 	"time"
 
-	"github.com/clive2000/rclone/fs/fserrors"
+	"github.com/rclone/rclone/fs/fserrors"
 )
 
 // Error describes a B2 error response
