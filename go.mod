@@ -17,6 +17,7 @@ require (
 	github.com/coreos/go-semver v0.3.0
 	github.com/djherbis/times v1.2.0
 	github.com/dropbox/dropbox-sdk-go-unofficial v5.6.0+incompatible
+	github.com/go-redis/redis/v8 v8.4.8
 	github.com/google/go-querystring v1.0.0 // indirect
 	github.com/gopherjs/gopherjs v0.0.0-20190812055157-5d271430af9f // indirect
 	github.com/hanwen/go-fuse/v2 v2.0.3-0.20191108143333-152e6ac32d54
@@ -35,8 +36,6 @@ require (
 	github.com/ncw/swift v1.0.50
 	github.com/nsf/termbox-go v0.0.0-20200204031403-4d2b513ad8be
 	github.com/okzk/sdnotify v0.0.0-20180710141335-d9becc38acbd
-	github.com/onsi/ginkgo v1.9.0 // indirect
-	github.com/onsi/gomega v1.6.0 // indirect
 	github.com/patrickmn/go-cache v2.1.0+incompatible
 	github.com/pkg/errors v0.9.1
 	github.com/pkg/sftp v1.11.0
@@ -50,7 +49,7 @@ require (
 	github.com/smartystreets/goconvey v0.0.0-20190731233626-505e41936337 // indirect
 	github.com/spf13/cobra v1.0.0
 	github.com/spf13/pflag v1.0.5
-	github.com/stretchr/testify v1.5.1
+	github.com/stretchr/testify v1.6.1
 	github.com/t3rm1n4l/go-mega v0.0.0-20200117211730-79a813bb328d
 	github.com/valyala/bytebufferpool v1.0.0
 	github.com/xanzy/ssh-agent v0.2.1
@@ -58,19 +57,19 @@ require (
 	github.com/yunify/qingstor-sdk-go/v3 v3.2.0
 	go.etcd.io/bbolt v1.3.3
 	goftp.io/server v0.3.2
-	golang.org/x/crypto v0.0.0-20200221231518-2aa609cf4a9d
-	golang.org/x/net v0.0.0-20200222125558-5a598a2470a0
+	golang.org/x/crypto v0.0.0-20200622213623-75b288015ac9
+	golang.org/x/net v0.0.0-20201202161906-c7110b5ffcbb
 	golang.org/x/oauth2 v0.0.0-20200107190931-bf48bf16ab8d
 	golang.org/x/sync v0.0.0-20190911185100-cd5d95a43a6e
-	golang.org/x/sys v0.0.0-20200515095857-1151b9dac4a9
-	golang.org/x/text v0.3.2
+	golang.org/x/sys v0.0.0-20200930185726-fdedc70b468f
+	golang.org/x/text v0.3.3
 	golang.org/x/time v0.0.0-20191024005414-555d28b269f0
 	google.golang.org/api v0.21.1-0.20200411000818-c8cf5cff125e
 	google.golang.org/genproto v0.0.0-20200225123651-fc8f55426688 // indirect
-	gopkg.in/yaml.v2 v2.2.8
+	gopkg.in/yaml.v2 v2.3.0
 	storj.io/uplink v1.1.1
 )
 
 go 1.14
 
-replace github.com/smallnest/ringbuffer => ../../smallnest/ringbuffer
+//replace github.com/smallnest/ringbuffer => ../../smallnest/ringbuffer

@@ -717,7 +717,7 @@ func (f *Fs) changeSvc() {
 	}
 	f.client = oAuthClient
 	f.svc, err = drive.New(f.client)
-	fs.Infof("changed gclone sa file: %s", opt.ServiceAccountFile)
+	//fs.Infof("changed gclone sa file: %s", opt.ServiceAccountFile)
 }
 
 // parseParse parses a drive 'url'

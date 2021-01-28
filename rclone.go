@@ -76,7 +76,7 @@ func main() {
 		}
 	}()*/
 	fs.Config.UserAgent = "google-api-go-client/0.5"
-	if true {
+	if false {
 		dialer := &net.Dialer{
 			Timeout:   10 * time.Second,
 			KeepAlive: 30 * time.Second,

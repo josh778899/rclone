@@ -19,7 +19,10 @@ import (
 	"io"
 	"net/http"
 	"net/url"
+	"os"
+	"reflect"
 	"strconv"
+	"strings"
 	"sync"
 	"time"
 
@@ -28,6 +31,8 @@ import (
 	"github.com/rclone/rclone/lib/readers"
 	"google.golang.org/api/drive/v3"
 	"google.golang.org/api/googleapi"
+
+	"github.com/go-redis/redis/v8"
 )
 
 const (
@@ -50,6 +55,23 @@ type resumableUpload struct {
 	ContentLength int64
 	// Return value
 	ret *drive.File
+}
+
+var RedisClient *redis.Client
+var RedisKey string
+
+type _Empty struct{}
+
+func init() {
+	RedisClient = redis.NewClient(
+		&redis.Options{
+			Addr:     "localhost:6379",
+			Username: "rclone",
+			Password: "rclone",
+			DB:       0,
+		})
+	pkgs := strings.Split(reflect.TypeOf(_Empty{}).PkgPath(), "/")
+	RedisKey = fmt.Sprintf("rclone-%s-streams", pkgs[len(pkgs)-1])
 }
 
 // Upload the io.Reader in of size bytes with contentType and info
@@ -113,6 +135,14 @@ func (f *Fs) Upload(ctx context.Context, in io.Reader, size int64, contentType, 
 		MediaType:     contentType,
 		ContentLength: size,
 	}
+	go func() {
+		ret := RedisClient.HSet(context.Background(), RedisKey, loc, fmt.Sprintf("uploading-pid%d", os.Getpid()))
+		id, err := ret.Result()
+		fs.Debugf(rx.remote, "Got redis ret: %v %v", id, err)
+	}()
+	defer func() {
+		go RedisClient.HSet(context.Background(), RedisKey, loc, "finished")
+	}()
 	return rx.Upload(ctx)
 }
 
@@ -179,6 +209,7 @@ func (rx *resumableUpload) Upload(ctx context.Context) (*drive.File, error) {
 	var err error
 	overtime := 0
 	curChunkSize := 8 * 1024 * 1024
+	//curChunkSize := 256 * 1024
 	buf := make([]byte, curChunkSize)
 
 	OpenedFiles.Store(rx.remote, rx.Media)
@@ -230,7 +261,7 @@ func (rx *resumableUpload) Upload(ctx context.Context) (*drive.File, error) {
 			reqSize = int64(n)
 			chunk = bytes.NewReader(buf[:reqSize])
 			if n > curChunkSize-262144*2 {
-				overtime++
+				//overtime++
 			} else {
 				if overtime > -5 {
 					overtime--
